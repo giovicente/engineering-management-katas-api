@@ -3,3 +3,13 @@ server:
 spring:
   application:
     name: engineering-management-katas-api
+  datasource:
+    url: jdbc:postgresql://localhost:5432/engineering_management_katas
+    username: postgres
+    password: vV2LC6!Lfh8H9RAb6afvmZrGp6qRExTyW9Q
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
