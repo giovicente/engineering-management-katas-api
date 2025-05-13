@@ -9,7 +9,7 @@
         <artifactId>engineering-management-katas-api</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
-:q
+
 
     <artifactId>engineering-management-katas-api-adapter</artifactId>
     <packaging>jar</packaging>
