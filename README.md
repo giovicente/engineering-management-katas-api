@@ -37,7 +37,8 @@ engineering-management-katas-api/
 │   └── src/
 │       └── main/java/
 │           └── org.giovicente.engineering.management.katas.api.domain/
-│
+│               └── enums
+│               └── model
 ├── engineering-management-katas-api-adapter/                       # Infrastructure: database, web, external APIs
 │   └── pom.xml
 │   └── src/
