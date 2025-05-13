@@ -7,12 +7,12 @@ import org.giovicente.engineering.management.katas.api.domain.enums.Language;
 
 import java.util.UUID;
 
-@AllArgsConstructor
-@NoArgsConstructor
 @Builder
 @Getter
 @Setter
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 public class Kata {
     @Id
     @GeneratedValue
