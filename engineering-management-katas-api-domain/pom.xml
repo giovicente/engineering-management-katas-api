@@ -15,22 +15,11 @@
     </properties>
 
     <dependencies>
-
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>1.18.38</version>
             <scope>provided</scope>
         </dependency>
-
-        <!-- JPA API - provides only annotations and interfaces (@Entity, @Id, etc.);
-        the actual implementation will be included in the application module with spring-boot-starter-data-jpa -->
-        <dependency>
-            <groupId>jakarta.persistence</groupId>
-            <artifactId>jakarta.persistence-api</artifactId>
-            <version>3.1.0</version>
-        </dependency>
-
     </dependencies>
-    
 </project>

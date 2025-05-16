@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 
 @SpringBootApplication
-@EntityScan(basePackages = "org.giovicente.engineering.management.katas.api.domain.model")
+@EntityScan(basePackages = "org.giovicente.engineering.management.katas.api.persistence.entity")
 public class EngineeringManagementKatasApiApplication {
 
     public static void main(String[] args) {
