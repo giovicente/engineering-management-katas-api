@@ -29,16 +29,17 @@ engineering-management-katas-api/
 ├── engineering-management-katas-api-application/                   # Main entrypoint module (Spring Boot App)
 │   └── pom.xml
 │   └── src/
-│       └── main/java/
-│           └── org.giovicente.engineering.management.katas.api/
+│       └── main/
+│           └── java/org.giovicente.engineering.management.katas.api/
+│           └── resources/
 │
 ├── engineering-management-katas-api-domain/                        # Business models and core logic
 │   └── pom.xml
 │   └── src/
 │       └── main/java/
 │           └── org.giovicente.engineering.management.katas.api.domain/
-│               └── enums
-│               └── model
+│               └── enums/
+│               └── model/
 ├── engineering-management-katas-api-adapter/                       # Infrastructure: database, web, external APIs
 │   └── pom.xml
 │   └── src/
