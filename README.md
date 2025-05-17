@@ -44,7 +44,7 @@ engineering-management-katas-api/
 │   └── pom.xml
 │   └── src/
 │       └── main/java/
-│           └── org.giovicente.engineering.management.katas.api.adapter/
+│           └── org.giovicente.engineering.management.katas.api.adapter.persistence/entity/
 │
 └── engineering-management-katas-api-processor/                     # Use cases and application logic
     └── pom.xml

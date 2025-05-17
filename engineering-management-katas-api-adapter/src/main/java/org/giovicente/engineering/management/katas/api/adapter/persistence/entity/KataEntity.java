@@ -1,4 +1,4 @@
-package org.giovicente.engineering.management.katas.api.persistence.entity;
+package org.giovicente.engineering.management.katas.api.adapter.persistence.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
