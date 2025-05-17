@@ -18,11 +18,9 @@ public class EngineeringManagementKatasApiProcessorImpl implements EngineeringMa
     private final Random random = new Random();
 
     @Override
-    public Kata getRandomKataUseCase() {
-        var all = repository.findAll();
-        if (all.isEmpty()) throw new IllegalStateException("No katas found");
-        int randomIndex = random.nextInt(all.size());
-
-        return mapper.toModel(all.get(randomIndex));
+    public Kata getRandomKata() {
+        var entity = repository.findRandomKata();
+        if (entity == null) throw new IllegalStateException("No katas found");
+        return mapper.toModel(entity);
     }
 }

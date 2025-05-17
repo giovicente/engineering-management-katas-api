@@ -2,9 +2,14 @@ package org.giovicente.engineering.management.katas.api.adapter.persistence.repo
 
 import org.giovicente.engineering.management.katas.api.adapter.persistence.entity.KataEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.UUID;
 
 @Repository
-public interface KataRepository extends JpaRepository<KataEntity, UUID> { }
+public interface KataRepository extends JpaRepository<KataEntity, UUID> {
+
+    @Query(value = "SELECT * FROM kata ORDER BY random() LIMIT 1", nativeQuery = true)
+    KataEntity findRandomKata();
+}

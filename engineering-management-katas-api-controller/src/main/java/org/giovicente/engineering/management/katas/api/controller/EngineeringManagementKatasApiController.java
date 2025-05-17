@@ -15,9 +15,9 @@ public class EngineeringManagementKatasApiController {
 
     private final EngineeringManagementKatasApiProcessor processor;
 
-    @GetMapping("/random")
+    @GetMapping
     public ResponseEntity<Kata> getRandom() {
-        return ResponseEntity.ok(processor.getRandomKataUseCase());
+        return ResponseEntity.ok(processor.getRandomKata());
     }
 }
 
