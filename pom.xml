@@ -14,6 +14,8 @@
         <module>engineering-management-katas-api-processor</module>
         <module>engineering-management-katas-api-adapter</module>
         <module>engineering-management-katas-api-application</module>
+        <module>engineering-management-katas-api-core</module>
+        <module>engineering-management-katas-api-controller</module>
     </modules>
 
     <dependencyManagement>
