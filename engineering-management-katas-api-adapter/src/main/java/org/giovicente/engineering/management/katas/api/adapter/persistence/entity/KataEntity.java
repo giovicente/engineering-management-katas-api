@@ -26,5 +26,7 @@ public class KataEntity {
     private Language language;
 
     private String title;
+
+    @Column(length = 550)
     private String description;
 }
