@@ -26,31 +26,58 @@ engineering-management-katas-api/
 ├── LICENSE                        # Project license
 ├── docker-compose.yml             # (Planned) For local DB and services
 │
-├── engineering-management-katas-api-application/                   # Main entrypoint module (Spring Boot App)
-│   └── pom.xml
-│   └── src/
-│       └── main/
-│           └── java/org.giovicente.engineering.management.katas.api/
-│           └── resources/
-│
-├── engineering-management-katas-api-domain/                        # Business models and core logic
-│   └── pom.xml
-│   └── src/
-│       └── main/java/
-│           └── org.giovicente.engineering.management.katas.api.domain/
-│               └── enums/
-│               └── model/
 ├── engineering-management-katas-api-adapter/                       # Infrastructure: database, web, external APIs
 │   └── pom.xml
 │   └── src/
 │       └── main/java/
-│           └── org.giovicente.engineering.management.katas.api.adapter.persistence/entity/
+│           └── org/giovicente/engineering/management/katas/api/adapter/
+│               ├── mapper 
+│               └── persistence
+│                   ├── entity
+│                   └── repository
 │
-└── engineering-management-katas-api-processor/                     # Use cases and application logic
-    └── pom.xml
+├── engineering-management-katas-api-application/                   # Main entrypoint module (Spring Boot App)
+│   └── pom.xml
+│   └── src/
+│       └── main/
+│           └── java/org/giovicente/engineering/management/katas/api/
+│           └── resources/
+│
+├── engineering-management-katas-api-controller/                    # Http Request and Response, orchestration
+│   ├── pom.xml
+│   └── src/
+│       ├── main/
+│       │   └── java/
+│       │       └── org/giovicente/engineering/management/katas/api/controller
+│       │           ├── dto
+│       │           └── mapper
+│       └── test/
+│           └── java/
+│               └── org/giovicente/engineering/management/katas/api/controller/tests/
+│
+├── engineering-management-katas-api-core/                          # Interfaces for business logic
+│   └── pom.xml
+│   └── src/
+│       └── main/java/
+│           └── org/giovicente/engineering/management/katas/api/core/
+│
+├── engineering-management-katas-api-domain/                        # Business models
+│   └── pom.xml
+│   └── src/
+│       └── main/java/
+│           └── org/giovicente/engineering/management/katas/api/domain/
+│               └── enums/
+│               └── model/
+│
+├── engineering-management-katas-api-processor/                     # Use cases and application logic
+│   ├── pom.xml
     └── src/
-        └── main/java/
-            └── org.giovicente.engineering.management.katas.api.processor/
+        ├── main/
+        │   ├── java/
+        │   │   └── org/giovicente/engineering/management/katas/api/processor
+        └── test/
+            └── java/
+                └── org/giovicente/engineering/management/katas/api/processor/tests/
 ```
 
 ## ✅ Prerequisites
@@ -59,12 +86,17 @@ Before running the application, ensure you have the following installed:
 
 - **Java 17** or later (You can check your version with: `java -version`)
 - **Maven** (You can check your version with: `mvn -v`)
+- **PostgreSQL 12+**
 
 ## 🧪 Run locally
 
 ### Using Maven Command
 
-To run the application locally, navigate to the root directory of the project and use the following Maven command:
+To run the application locally, navigate to the root directory of the project and use the following Maven commands:
+
+```bash
+mvn clean install
+```
 
 ```bash
 mvn spring-boot:run -pl engineering-management-katas-api-application
@@ -81,6 +113,5 @@ All profits from the frontend's advertising will go solely to the author.
 ## 🚧 Next Steps
 
 - Add PostgreSQL connection with Docker
-- Create first use case: GetRandomKata
-- Expose HTTP endpoint via RESTController
+- Get random kata by category use case
 - Implement basic GUI in React (future)
