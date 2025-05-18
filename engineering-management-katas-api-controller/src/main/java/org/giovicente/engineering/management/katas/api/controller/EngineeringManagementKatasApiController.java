@@ -1,8 +1,9 @@
 package org.giovicente.engineering.management.katas.api.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.giovicente.engineering.management.katas.api.controller.dto.KataResponse;
+import org.giovicente.engineering.management.katas.api.controller.mapper.KataDtoMapper;
 import org.giovicente.engineering.management.katas.api.core.EngineeringManagementKatasApiProcessor;
-import org.giovicente.engineering.management.katas.api.domain.model.Kata;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,10 +15,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class EngineeringManagementKatasApiController {
 
     private final EngineeringManagementKatasApiProcessor processor;
+    private final KataDtoMapper dtoMapper;
 
     @GetMapping
-    public ResponseEntity<Kata> getRandom() {
-        return ResponseEntity.ok(processor.getRandomKata());
+    public ResponseEntity<KataResponse> getRandom() {
+        var kata = processor.getRandomKata();
+        return ResponseEntity.ok(dtoMapper.toResponse(kata));
     }
 }
-

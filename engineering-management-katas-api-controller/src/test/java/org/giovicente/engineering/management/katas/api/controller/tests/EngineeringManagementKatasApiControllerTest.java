@@ -1,0 +1,63 @@
+package org.giovicente.engineering.management.katas.api.controller.tests;
+
+import org.giovicente.engineering.management.katas.api.controller.EngineeringManagementKatasApiController;
+import org.giovicente.engineering.management.katas.api.controller.dto.KataResponse;
+import org.giovicente.engineering.management.katas.api.controller.mapper.KataDtoMapper;
+import org.giovicente.engineering.management.katas.api.core.EngineeringManagementKatasApiProcessor;
+import org.giovicente.engineering.management.katas.api.domain.enums.Category;
+import org.giovicente.engineering.management.katas.api.domain.enums.Language;
+import org.giovicente.engineering.management.katas.api.domain.model.Kata;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mapstruct.factory.Mappers;
+import org.mockito.Mockito;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+
+import java.util.UUID;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+class EngineeringManagementKatasApiControllerTest {
+
+    private Kata model;
+    private final KataDtoMapper mapper = Mappers.getMapper(KataDtoMapper.class);
+
+    @BeforeEach
+    void setUp() {
+        model = Kata.builder()
+                .id(UUID.randomUUID())
+                .category(Category.TECHNICAL)
+                .language(Language.EN_US)
+                .title("Daily Stand-up kata")
+                .description("How to improve your team's daily meeting?")
+                .build();
+    }
+
+    @Test
+    void getRandom_shouldReturnKataResponse() {
+        EngineeringManagementKatasApiProcessor processorMock = Mockito.mock(EngineeringManagementKatasApiProcessor.class);
+        KataDtoMapper mapperMock = Mockito.mock(KataDtoMapper.class);
+
+        KataResponse kataResponse = new KataResponse(model.getTitle(), model.getDescription());
+        Mockito.when(processorMock.getRandomKata()).thenReturn(model);
+        Mockito.when(mapperMock.toResponse(model)).thenReturn(kataResponse);
+
+        EngineeringManagementKatasApiController controller = new EngineeringManagementKatasApiController(processorMock, mapperMock);
+        ResponseEntity<KataResponse> response = controller.getRandom();
+
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(response.getBody()).isNotNull();
+        assertThat(response.getBody().getTitle()).isEqualTo("Daily Stand-up kata");
+        assertThat(response.getBody().getDescription()).isEqualTo("How to improve your team's daily meeting?");
+    }
+
+    @Test
+    void toResponse_shouldMapTitleAndDescription() {
+        KataResponse response = mapper.toResponse(model);
+
+        assertThat(response).isNotNull();
+        assertThat(response.getTitle()).isEqualTo(model.getTitle());
+        assertThat(response.getDescription()).isEqualTo(model.getDescription());
+    }
+}
