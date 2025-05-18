@@ -39,7 +39,7 @@ class EngineeringManagementKatasApiControllerTest {
         EngineeringManagementKatasApiProcessor processorMock = Mockito.mock(EngineeringManagementKatasApiProcessor.class);
         KataDtoMapper mapperMock = Mockito.mock(KataDtoMapper.class);
 
-        KataResponse kataResponse = new KataResponse(model.getTitle(), model.getDescription());
+        KataResponse kataResponse = new KataResponse(model.getCategory(), model.getTitle(), model.getDescription());
         Mockito.when(processorMock.getRandomKata()).thenReturn(model);
         Mockito.when(mapperMock.toResponse(model)).thenReturn(kataResponse);
 
@@ -57,6 +57,7 @@ class EngineeringManagementKatasApiControllerTest {
         KataResponse response = mapper.toResponse(model);
 
         assertThat(response).isNotNull();
+        assertThat(response.getCategory()).isEqualTo(model.getCategory());
         assertThat(response.getTitle()).isEqualTo(model.getTitle());
         assertThat(response.getDescription()).isEqualTo(model.getDescription());
     }
