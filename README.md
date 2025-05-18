@@ -29,12 +29,16 @@ engineering-management-katas-api/
 ├── engineering-management-katas-api-adapter/                       # Infrastructure: database, web, external APIs
 │   └── pom.xml
 │   └── src/
-│       └── main/java/
-│           └── org/giovicente/engineering/management/katas/api/adapter/
-│               ├── mapper 
+│       ├── main/
+│       │   └── java/org/giovicente/engineering/management/katas/api/adapter/
+│       │       ├── mapper 
+│       │       └── persistence
+│       │           ├── entity
+│       │           └── repository
+│       └── test/
+│           └── java/org/giovicente/engineering/management/katas/api/adapter/tests
+│               ├── mapper
 │               └── persistence
-│                   ├── entity
-│                   └── repository
 │
 ├── engineering-management-katas-api-application/                   # Main entrypoint module (Spring Boot App)
 │   └── pom.xml
