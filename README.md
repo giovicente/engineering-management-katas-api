@@ -27,7 +27,7 @@ engineering-management-katas-api/
 ├── docker-compose.yml             # (Planned) For local DB and services
 │
 ├── engineering-management-katas-api-adapter/                       # Infrastructure: database, web, external APIs
-│   └── pom.xml
+│   ├── pom.xml
 │   └── src/
 │       ├── main/
 │       │   └── java/org/giovicente/engineering/management/katas/api/adapter/
@@ -41,47 +41,43 @@ engineering-management-katas-api/
 │               └── persistence
 │
 ├── engineering-management-katas-api-application/                   # Main entrypoint module (Spring Boot App)
-│   └── pom.xml
+│   ├── pom.xml
 │   └── src/
 │       └── main/
-│           └── java/org/giovicente/engineering/management/katas/api/
+│           ├── java/org/giovicente/engineering/management/katas/api/
 │           └── resources/
 │
 ├── engineering-management-katas-api-controller/                    # Http Request and Response, orchestration
 │   ├── pom.xml
 │   └── src/
 │       ├── main/
-│       │   └── java/
-│       │       └── org/giovicente/engineering/management/katas/api/controller
-│       │           ├── dto
-│       │           └── mapper
+│       │   └── java/org/giovicente/engineering/management/katas/api/controller 
+│       │       ├── dto
+│       │       └── mapper
 │       └── test/
-│           └── java/
-│               └── org/giovicente/engineering/management/katas/api/controller/tests/
+│           └── java/org/giovicente/engineering/management/katas/api/controller/tests/
 │
 ├── engineering-management-katas-api-core/                          # Interfaces for business logic
-│   └── pom.xml
+│   ├── pom.xml
 │   └── src/
-│       └── main/java/
-│           └── org/giovicente/engineering/management/katas/api/core/
+│       └── main
+│           └── /java/org/giovicente/engineering/management/katas/api/core/
 │
 ├── engineering-management-katas-api-domain/                        # Business models
-│   └── pom.xml
+│   ├── pom.xml
 │   └── src/
-│       └── main/java/
-│           └── org/giovicente/engineering/management/katas/api/domain/
+│       └── main/
+│           └── java/org/giovicente/engineering/management/katas/api/domain/
 │               └── enums/
 │               └── model/
 │
-├── engineering-management-katas-api-processor/                     # Use cases and application logic
-│   ├── pom.xml
+└── engineering-management-katas-api-processor/                     # Use cases and application logic
+    ├── pom.xml
     └── src/
         ├── main/
-        │   ├── java/
-        │   │   └── org/giovicente/engineering/management/katas/api/processor
+        │   └── java/org/giovicente/engineering/management/katas/api/processor
         └── test/
-            └── java/
-                └── org/giovicente/engineering/management/katas/api/processor/tests/
+            └── java/org/giovicente/engineering/management/katas/api/processor/tests/
 ```
 
 ## ✅ Prerequisites
