@@ -22,6 +22,10 @@ class EngineeringManagementKatasApiControllerTest {
 
     private Kata model;
     private final KataDtoMapper mapper = Mappers.getMapper(KataDtoMapper.class);
+    private EngineeringManagementKatasApiProcessor processorMock;
+    private KataDtoMapper mapperMock;
+    private KataResponse kataResponse;
+    EngineeringManagementKatasApiController controller;
 
     @BeforeEach
     void setUp() {
@@ -32,19 +36,20 @@ class EngineeringManagementKatasApiControllerTest {
                 .title("Daily Stand-up kata")
                 .description("How to improve your team's daily meeting?")
                 .build();
+
+        processorMock = Mockito.mock(EngineeringManagementKatasApiProcessor.class);
+        mapperMock = Mockito.mock(KataDtoMapper.class);
+
+        kataResponse = new KataResponse(model.getCategory(), model.getTitle(), model.getDescription());
+        controller = new EngineeringManagementKatasApiController(processorMock, mapperMock);
     }
 
     @Test
     void getRandom_shouldReturnKataResponse() {
-        EngineeringManagementKatasApiProcessor processorMock = Mockito.mock(EngineeringManagementKatasApiProcessor.class);
-        KataDtoMapper mapperMock = Mockito.mock(KataDtoMapper.class);
-
-        KataResponse kataResponse = new KataResponse(model.getCategory(), model.getTitle(), model.getDescription());
         Mockito.when(processorMock.getRandomKata()).thenReturn(model);
         Mockito.when(mapperMock.toResponse(model)).thenReturn(kataResponse);
 
-        EngineeringManagementKatasApiController controller = new EngineeringManagementKatasApiController(processorMock, mapperMock);
-        ResponseEntity<KataResponse> response = controller.getRandom();
+        ResponseEntity<KataResponse> response = (ResponseEntity<KataResponse>) controller.getRandom(null);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody()).isNotNull();
@@ -60,5 +65,28 @@ class EngineeringManagementKatasApiControllerTest {
         assertThat(response.getCategory()).isEqualTo(model.getCategory());
         assertThat(response.getTitle()).isEqualTo(model.getTitle());
         assertThat(response.getDescription()).isEqualTo(model.getDescription());
+    }
+
+    @Test
+    void getRandom_shouldReturnKataResponseByCategory() {
+        Mockito.when(processorMock.getRandomKataByCategory(model.getCategory())).thenReturn(model);
+        Mockito.when(mapperMock.toResponse(model)).thenReturn(kataResponse);
+
+        ResponseEntity<KataResponse> response = (ResponseEntity<KataResponse>) controller.getRandom(model.getCategory().toString());
+
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(response.getBody()).isNotNull();
+        assertThat(response.getBody().getTitle()).isEqualTo("Daily Stand-up kata");
+        assertThat(response.getBody().getDescription()).isEqualTo("How to improve your team's daily meeting?");
+    }
+
+    @Test
+    void getRandom_shouldThrowIllegalArgumentException() {
+        String invalidCategory = "invalid";
+
+        ResponseEntity<?> response = controller.getRandom(invalidCategory);
+
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+        assertThat(response.getBody()).isEqualTo("Invalid category: " + invalidCategory);
     }
 }

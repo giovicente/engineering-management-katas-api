@@ -20,17 +20,16 @@ class EngineeringManagementKatasApiProcessorImplTest {
     private KataRepository repository;
     private KataMapper mapper;
     private EngineeringManagementKatasApiProcessorImpl processor;
+    private KataEntity entity;
+    private Kata model;
 
     @BeforeEach
     void setUp() {
         repository = mock(KataRepository.class);
         mapper = mock(KataMapper.class);
         processor = new EngineeringManagementKatasApiProcessorImpl(repository, mapper);
-    }
 
-    @Test
-    void shouldReturnRandomKataWhenDataExists() {
-        KataEntity entity = KataEntity.builder()
+        entity = KataEntity.builder()
                 .id(UUID.randomUUID())
                 .category(Category.TECHNICAL)
                 .language(Language.EN_US)
@@ -38,14 +37,17 @@ class EngineeringManagementKatasApiProcessorImplTest {
                 .description("How to improve your team's daily meeting?")
                 .build();
 
-        Kata model = Kata.builder()
+        model = Kata.builder()
                 .id(entity.getId())
                 .category(entity.getCategory())
                 .language(entity.getLanguage())
                 .title(entity.getTitle())
                 .description(entity.getDescription())
                 .build();
+    }
 
+    @Test
+    void getRandomKata_shouldReturnRandomKataWhenDataExists() {
         when(repository.findRandomKata()).thenReturn(entity);
         when(mapper.toModel(entity)).thenReturn(model);
 
@@ -58,7 +60,7 @@ class EngineeringManagementKatasApiProcessorImplTest {
     }
 
     @Test
-    void shouldThrowExceptionWhenNoRandomKatasFound() {
+    void getRandomKata_shouldThrowExceptionWhenNoRandomKatasFound() {
         when(repository.findRandomKata()).thenReturn(null);
 
         IllegalStateException exception = assertThrows(IllegalStateException.class,
@@ -66,6 +68,35 @@ class EngineeringManagementKatasApiProcessorImplTest {
 
         assertEquals("No katas found", exception.getMessage());
         verify(repository, times(1)).findRandomKata();
+        verifyNoInteractions(mapper);
+    }
+
+    @Test
+    void getRandomKataByCategory_shouldReturnRandomKataByCategoryWhenDataExists() {
+        when(repository.findRandomKataByCategory(model.getCategory().toString())).thenReturn(entity);
+        when(mapper.toModel(entity)).thenReturn(model);
+
+        final String CATEGORY_REQUEST_PARAM = "TECHNICAL";
+
+        Kata actual = processor.getRandomKataByCategory(Category.valueOf(CATEGORY_REQUEST_PARAM));
+
+        assertNotNull(actual);
+        assertEquals("Daily Stand-up kata", actual.getTitle());
+        assertEquals(Category.TECHNICAL, actual.getCategory());
+        verify(repository, times(1)).findRandomKataByCategory(CATEGORY_REQUEST_PARAM);
+        verify(mapper, times(1)).toModel(entity);
+    }
+
+    @Test
+    void getRandomKataByCategory_shouldThrowExceptionForInvalidCategory() {
+        String invalidCategory = "SOCCER";
+        when(repository.findRandomKataByCategory(invalidCategory)).thenReturn(null);
+
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
+                () -> processor.getRandomKataByCategory(Category.valueOf(invalidCategory)));
+
+        assertEquals("No enum constant org.giovicente.engineering.management.katas.api.domain.enums.Category.SOCCER", exception.getMessage());
+        verify(repository, times(0)).findRandomKataByCategory(invalidCategory);
         verifyNoInteractions(mapper);
     }
 }

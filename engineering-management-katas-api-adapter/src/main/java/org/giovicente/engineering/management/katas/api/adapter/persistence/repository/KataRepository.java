@@ -12,4 +12,7 @@ public interface KataRepository extends JpaRepository<KataEntity, UUID> {
 
     @Query(value = "SELECT * FROM kata ORDER BY random() LIMIT 1", nativeQuery = true)
     KataEntity findRandomKata();
+
+    @Query(value = "SELECT * FROM kata WHERE category = ?1 ORDER BY random() LIMIT 1", nativeQuery = true)
+    KataEntity findRandomKataByCategory(String category);
 }
