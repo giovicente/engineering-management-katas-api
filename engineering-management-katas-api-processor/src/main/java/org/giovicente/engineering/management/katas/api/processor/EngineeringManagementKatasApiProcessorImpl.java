@@ -8,8 +8,6 @@ import org.giovicente.engineering.management.katas.api.domain.enums.Category;
 import org.giovicente.engineering.management.katas.api.domain.model.Kata;
 import org.springframework.stereotype.Service;
 
-import java.util.Random;
-
 @Service
 @RequiredArgsConstructor
 public class EngineeringManagementKatasApiProcessorImpl implements EngineeringManagementKatasApiProcessor {
