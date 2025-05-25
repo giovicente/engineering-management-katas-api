@@ -47,11 +47,11 @@ class EngineeringManagementKatasApiProcessorImplTest {
     }
 
     @Test
-    void getRandomKata_shouldReturnRandomKataWhenDataExists() {
+    void getRandomKataByDefault_shouldReturnRandomKataWhenDataExists() {
         when(repository.findRandomKata()).thenReturn(entity);
         when(mapper.toModel(entity)).thenReturn(model);
 
-        Kata actual = processor.getRandomKata();
+        Kata actual = processor.getRandomKataByDefault();
 
         assertNotNull(actual);
         assertEquals("Daily Stand-up kata", actual.getTitle());
@@ -60,11 +60,11 @@ class EngineeringManagementKatasApiProcessorImplTest {
     }
 
     @Test
-    void getRandomKata_shouldThrowExceptionWhenNoRandomKatasFound() {
+    void getRandomKataByDefault_shouldThrowExceptionWhenNoRandomKatasFound() {
         when(repository.findRandomKata()).thenReturn(null);
 
         IllegalStateException exception = assertThrows(IllegalStateException.class,
-                () -> processor.getRandomKata());
+                () -> processor.getRandomKataByDefault());
 
         assertEquals("No katas found", exception.getMessage());
         verify(repository, times(1)).findRandomKata();

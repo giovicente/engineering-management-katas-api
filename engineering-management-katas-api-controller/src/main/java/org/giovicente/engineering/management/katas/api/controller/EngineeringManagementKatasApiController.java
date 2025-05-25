@@ -22,7 +22,7 @@ public class EngineeringManagementKatasApiController {
     public ResponseEntity<?> getRandom(@RequestParam(name = "category", required = false) String category) {
         try {
             var kata = (category == null)
-                    ? processor.getRandomKata()
+                    ? processor.getRandomKataByDefault()
                     : processor.getRandomKataByCategory(Category.valueOf(category.toUpperCase()));
 
             return ResponseEntity.ok(dtoMapper.toResponse(kata));

@@ -46,7 +46,7 @@ class EngineeringManagementKatasApiControllerTest {
 
     @Test
     void getRandom_shouldReturnKataResponse() {
-        Mockito.when(processorMock.getRandomKata()).thenReturn(model);
+        Mockito.when(processorMock.getRandomKataByDefault()).thenReturn(model);
         Mockito.when(mapperMock.toResponse(model)).thenReturn(kataResponse);
 
         ResponseEntity<KataResponse> response = (ResponseEntity<KataResponse>) controller.getRandom(null);

@@ -16,7 +16,7 @@ public class EngineeringManagementKatasApiProcessorImpl implements EngineeringMa
     private final KataMapper mapper;
 
     @Override
-    public Kata getRandomKata() {
+    public Kata getRandomKataByDefault() {
         var entity = repository.findRandomKata();
         if (entity == null) throw new IllegalStateException("No katas found");
         return mapper.toModel(entity);

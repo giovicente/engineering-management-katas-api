@@ -4,6 +4,6 @@ import org.giovicente.engineering.management.katas.api.domain.enums.Category;
 import org.giovicente.engineering.management.katas.api.domain.model.Kata;
 
 public interface EngineeringManagementKatasApiProcessor {
-    Kata getRandomKata();
+    Kata getRandomKataByDefault();
     Kata getRandomKataByCategory(Category category);
 }
