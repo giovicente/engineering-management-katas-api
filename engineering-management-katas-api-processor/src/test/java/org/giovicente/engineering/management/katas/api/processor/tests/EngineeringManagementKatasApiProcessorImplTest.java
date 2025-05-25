@@ -95,7 +95,7 @@ class EngineeringManagementKatasApiProcessorImplTest {
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
                 () -> processor.getRandomKataByCategory(Category.valueOf(invalidCategory)));
 
-        assertEquals("No enum constant org.giovicente.engineering.management.katas.api.domain.enums.Category.SOCCER", exception.getMessage());
+        assertEquals("No enum constant org.giovicente.engineering.management.katas.api.domain.enums.Category." + invalidCategory, exception.getMessage());
         verify(repository, times(0)).findRandomKataByCategory(invalidCategory);
         verifyNoInteractions(mapper);
     }
