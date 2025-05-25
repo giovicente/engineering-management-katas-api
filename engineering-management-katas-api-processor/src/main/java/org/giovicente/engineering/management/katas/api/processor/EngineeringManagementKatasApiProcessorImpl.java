@@ -16,7 +16,6 @@ public class EngineeringManagementKatasApiProcessorImpl implements EngineeringMa
 
     private final KataRepository repository;
     private final KataMapper mapper;
-    private final Random random = new Random();
 
     @Override
     public Kata getRandomKata() {
