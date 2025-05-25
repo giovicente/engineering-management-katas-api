@@ -113,5 +113,6 @@ All profits from the frontend's advertising will go solely to the author.
 ## 🚧 Next Steps
 
 - Add PostgreSQL connection with Docker
-- Get random kata by category use case
+- Get random kata by language use case
+- Get random kata by category and language use case
 - Implement basic GUI in React (future)
