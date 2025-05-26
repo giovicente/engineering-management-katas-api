@@ -1,4 +1,4 @@
-package org.giovicente.engineering.management.katas.api.core;
+package org.giovicente.engineering.management.katas.api.core.processor;
 
 import org.giovicente.engineering.management.katas.api.domain.enums.Category;
 import org.giovicente.engineering.management.katas.api.domain.model.Kata;

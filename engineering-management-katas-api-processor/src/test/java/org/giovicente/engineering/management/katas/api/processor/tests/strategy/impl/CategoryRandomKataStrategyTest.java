@@ -1,6 +1,6 @@
 package org.giovicente.engineering.management.katas.api.processor.tests.strategy.impl;
 
-import org.giovicente.engineering.management.katas.api.core.EngineeringManagementKatasApiProcessor;
+import org.giovicente.engineering.management.katas.api.core.processor.EngineeringManagementKatasApiProcessor;
 import org.giovicente.engineering.management.katas.api.core.strategy.RandomKataStrategy;
 import org.giovicente.engineering.management.katas.api.domain.enums.Category;
 import org.giovicente.engineering.management.katas.api.domain.enums.Language;

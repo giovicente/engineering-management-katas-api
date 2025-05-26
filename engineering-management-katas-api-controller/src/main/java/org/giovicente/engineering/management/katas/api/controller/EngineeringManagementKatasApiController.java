@@ -3,7 +3,6 @@ package org.giovicente.engineering.management.katas.api.controller;
 import lombok.RequiredArgsConstructor;
 import org.giovicente.engineering.management.katas.api.controller.dto.KataFilter;
 import org.giovicente.engineering.management.katas.api.controller.mapper.KataDtoMapper;
-import org.giovicente.engineering.management.katas.api.core.EngineeringManagementKatasApiProcessor;
 import org.giovicente.engineering.management.katas.api.domain.enums.Category;
 import org.giovicente.engineering.management.katas.api.processor.strategy.handler.RandomKataHandler;
 import org.springframework.http.MediaType;

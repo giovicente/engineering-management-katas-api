@@ -31,14 +31,14 @@ engineering-management-katas-api/
 │   └── src/
 │       ├── main/
 │       │   └── java/org/giovicente/engineering/management/katas/api/adapter/
-│       │       ├── mapper 
-│       │       └── persistence
-│       │           ├── entity
-│       │           └── repository
+│       │       ├── mapper/
+│       │       └── persistence/
+│       │           ├── entity/
+│       │           └── repository/
 │       └── test/
 │           └── java/org/giovicente/engineering/management/katas/api/adapter/tests
-│               ├── mapper
-│               └── persistence
+│               ├── mapper/
+│               └── persistence/
 │
 ├── engineering-management-katas-api-application/                   # Main entrypoint module (Spring Boot App)
 │   ├── pom.xml
@@ -52,23 +52,25 @@ engineering-management-katas-api/
 │   └── src/
 │       ├── main/
 │       │   └── java/org/giovicente/engineering/management/katas/api/controller 
-│       │       ├── dto
-│       │       └── mapper
+│       │       ├── dto/
+│       │       └── mapper/
 │       └── test/
 │           └── java/org/giovicente/engineering/management/katas/api/controller/tests/
 │
 ├── engineering-management-katas-api-core/                          # Interfaces for business logic
 │   ├── pom.xml
 │   └── src/
-│       └── main
-│           └── /java/org/giovicente/engineering/management/katas/api/core/
+│       └── main/
+│           └── java/org/giovicente/engineering/management/katas/api/core/
+│               ├── processor/
+│               └── strategy/
 │
 ├── engineering-management-katas-api-domain/                        # Business models
 │   ├── pom.xml
 │   └── src/
 │       └── main/
 │           └── java/org/giovicente/engineering/management/katas/api/domain/
-│               └── enums/
+│               ├── enums/
 │               └── model/
 │
 └── engineering-management-katas-api-processor/                     # Use cases and application logic
@@ -76,8 +78,14 @@ engineering-management-katas-api/
     └── src/
         ├── main/
         │   └── java/org/giovicente/engineering/management/katas/api/processor
+        │       └── strategy
+        │           ├── handler/
+        │           └── impl/
         └── test/
             └── java/org/giovicente/engineering/management/katas/api/processor/tests/
+                └── strategy
+                    ├── handler/
+                    └── impl/
 ```
 
 ## ✅ Prerequisites
