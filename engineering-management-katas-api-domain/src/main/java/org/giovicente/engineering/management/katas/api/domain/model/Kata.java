@@ -2,7 +2,7 @@ package org.giovicente.engineering.management.katas.api.domain.model;
 
 import lombok.*;
 import org.giovicente.engineering.management.katas.api.domain.enums.Category;
-import org.giovicente.engineering.management.katas.api.domain.enums.Language;
+import org.giovicente.engineering.management.katas.api.domain.enums.Level;
 
 import java.util.UUID;
 
@@ -14,7 +14,7 @@ import java.util.UUID;
 public class Kata {
     private UUID id;
     private Category category;
-    private Language language;
     private String title;
     private String description;
+    private Level level;
 }

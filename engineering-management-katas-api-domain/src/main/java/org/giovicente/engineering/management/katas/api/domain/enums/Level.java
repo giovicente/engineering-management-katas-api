@@ -5,9 +5,10 @@ import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-public enum Language {
-    PT_BR("Portuguese (Brazil)"),
-    EN_US("English (US)");
+public enum Level {
+    EASY("Easy"),
+    MEDIUM("Medium"),
+    HARD("Hard");
 
     private final String description;
 }

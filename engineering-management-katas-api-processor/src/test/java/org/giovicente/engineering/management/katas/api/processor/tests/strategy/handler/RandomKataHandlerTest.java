@@ -2,7 +2,7 @@ package org.giovicente.engineering.management.katas.api.processor.tests.strategy
 
 import org.giovicente.engineering.management.katas.api.core.strategy.RandomKataStrategy;
 import org.giovicente.engineering.management.katas.api.domain.enums.Category;
-import org.giovicente.engineering.management.katas.api.domain.enums.Language;
+import org.giovicente.engineering.management.katas.api.domain.enums.Level;
 import org.giovicente.engineering.management.katas.api.domain.model.Kata;
 import org.giovicente.engineering.management.katas.api.processor.strategy.handler.RandomKataHandler;
 import org.junit.jupiter.api.BeforeEach;
@@ -35,9 +35,9 @@ class RandomKataHandlerTest {
         kata = Kata.builder()
                 .id(UUID.randomUUID())
                 .category(Category.TECHNICAL)
-                .language(Language.EN_US)
                 .title("Daily Stand-up kata")
                 .description("How to improve your team's daily meeting?")
+                .level(Level.EASY)
                 .build();
     }
 

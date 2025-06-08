@@ -3,7 +3,7 @@ package org.giovicente.engineering.management.katas.api.adapter.persistence.enti
 import jakarta.persistence.*;
 import lombok.*;
 import org.giovicente.engineering.management.katas.api.domain.enums.Category;
-import org.giovicente.engineering.management.katas.api.domain.enums.Language;
+import org.giovicente.engineering.management.katas.api.domain.enums.Level;
 
 import java.util.UUID;
 
@@ -22,11 +22,14 @@ public class KataEntity {
     @Enumerated(EnumType.STRING)
     private Category category;
 
-    @Enumerated(EnumType.STRING)
-    private Language language;
+    // @Enumerated(EnumType.STRING)
+    // private Language language;
 
     private String title;
 
     @Column(length = 550)
     private String description;
+
+    @Enumerated(EnumType.STRING)
+    private Level level;
 }

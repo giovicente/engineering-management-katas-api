@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import org.giovicente.engineering.management.katas.api.domain.enums.Category;
+import org.giovicente.engineering.management.katas.api.domain.enums.Level;
 
 @Getter
 @Setter
@@ -14,4 +15,5 @@ public class KataResponse {
     private Category category;
     private String title;
     private String description;
+    private Level level;
 }

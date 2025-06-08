@@ -4,7 +4,7 @@ import org.giovicente.engineering.management.katas.api.adapter.mapper.KataMapper
 import org.giovicente.engineering.management.katas.api.adapter.persistence.entity.KataEntity;
 import org.giovicente.engineering.management.katas.api.adapter.persistence.repository.KataRepository;
 import org.giovicente.engineering.management.katas.api.domain.enums.Category;
-import org.giovicente.engineering.management.katas.api.domain.enums.Language;
+import org.giovicente.engineering.management.katas.api.domain.enums.Level;
 import org.giovicente.engineering.management.katas.api.domain.model.Kata;
 import org.giovicente.engineering.management.katas.api.processor.EngineeringManagementKatasApiProcessorImpl;
 import org.junit.jupiter.api.BeforeEach;
@@ -32,17 +32,17 @@ class EngineeringManagementKatasApiProcessorImplTest {
         entity = KataEntity.builder()
                 .id(UUID.randomUUID())
                 .category(Category.TECHNICAL)
-                .language(Language.EN_US)
                 .title("Daily Stand-up kata")
                 .description("How to improve your team's daily meeting?")
+                .level(Level.EASY)
                 .build();
 
         model = Kata.builder()
                 .id(entity.getId())
                 .category(entity.getCategory())
-                .language(entity.getLanguage())
                 .title(entity.getTitle())
                 .description(entity.getDescription())
+                .level(entity.getLevel())
                 .build();
     }
 

@@ -4,7 +4,7 @@ import org.giovicente.engineering.management.katas.api.controller.EngineeringMan
 import org.giovicente.engineering.management.katas.api.controller.dto.KataResponse;
 import org.giovicente.engineering.management.katas.api.controller.mapper.KataDtoMapper;
 import org.giovicente.engineering.management.katas.api.domain.enums.Category;
-import org.giovicente.engineering.management.katas.api.domain.enums.Language;
+import org.giovicente.engineering.management.katas.api.domain.enums.Level;
 import org.giovicente.engineering.management.katas.api.domain.model.Kata;
 import org.giovicente.engineering.management.katas.api.processor.strategy.handler.RandomKataHandler;
 import org.junit.jupiter.api.BeforeEach;
@@ -42,12 +42,12 @@ class EngineeringManagementKatasApiControllerTest {
         kata = Kata.builder()
                 .id(UUID.randomUUID())
                 .category(Category.TECHNICAL)
-                .language(Language.EN_US)
                 .title("Daily Stand-up kata")
                 .description("How to improve your team's daily meeting?")
+                .level(Level.EASY)
                 .build();
 
-        kataResponse = new KataResponse(kata.getCategory(), kata.getTitle(), kata.getDescription());
+        kataResponse = new KataResponse(kata.getCategory(), kata.getTitle(), kata.getDescription(), kata.getLevel());
     }
 
     @Test
@@ -58,7 +58,11 @@ class EngineeringManagementKatasApiControllerTest {
         mockMvc.perform(get("/katas")
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.title").value("Daily Stand-up kata"));
+                .andExpect(jsonPath("$.category").value(String.valueOf(Category.TECHNICAL)))
+                .andExpect(jsonPath("$.title").value("Daily Stand-up kata"))
+                .andExpect(jsonPath("$.description").value("How to improve your team's daily meeting?"))
+                .andExpect(jsonPath("$.level").value(String.valueOf(Level.EASY)));
+
     }
 
     @Test
@@ -70,7 +74,10 @@ class EngineeringManagementKatasApiControllerTest {
                         .param("category", "technical")
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.title").value("Daily Stand-up kata"));
+                .andExpect(jsonPath("$.category").value(String.valueOf(Category.TECHNICAL)))
+                .andExpect(jsonPath("$.title").value("Daily Stand-up kata"))
+                .andExpect(jsonPath("$.description").value("How to improve your team's daily meeting?"))
+                .andExpect(jsonPath("$.level").value(String.valueOf(Level.EASY)));
     }
 
     @Test
