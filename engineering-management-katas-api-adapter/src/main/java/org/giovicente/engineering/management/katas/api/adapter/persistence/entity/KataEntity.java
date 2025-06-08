@@ -22,9 +22,6 @@ public class KataEntity {
     @Enumerated(EnumType.STRING)
     private Category category;
 
-    // @Enumerated(EnumType.STRING)
-    // private Language language;
-
     private String title;
 
     @Column(length = 550)
