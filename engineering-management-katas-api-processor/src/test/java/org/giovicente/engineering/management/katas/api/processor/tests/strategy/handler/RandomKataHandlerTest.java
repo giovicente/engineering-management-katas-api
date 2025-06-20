@@ -43,32 +43,32 @@ class RandomKataHandlerTest {
 
     @Test
     void handle_shouldUseCategoryStrategy() {
-        Mockito.when(categoryStrategyMock.supports(Category.TECHNICAL.name())).thenReturn(true);
-        Mockito.when(categoryStrategyMock.getKata(Category.TECHNICAL.name())).thenReturn(kata);
+        Mockito.when(categoryStrategyMock.supports(Category.TECHNICAL.name(), null)).thenReturn(true);
+        Mockito.when(categoryStrategyMock.getKata(Category.TECHNICAL.name(), null)).thenReturn(kata);
 
-        Kata result = handler.handle(Category.TECHNICAL.name());
+        Kata result = handler.handle(Category.TECHNICAL.name(), null);
 
         assertThat(result).isNotNull();
         assertThat(result.getTitle()).isEqualTo("Daily Stand-up kata");
 
-        Mockito.verify(categoryStrategyMock).getKata(Category.TECHNICAL.name());
+        Mockito.verify(categoryStrategyMock).getKata(Category.TECHNICAL.name(), null);
         Mockito.verifyNoInteractions(defaultStrategyMock);
     }
 
     @Test
     void handle_shouldUseDefaultStrategy() {
-        Mockito.when(defaultStrategyMock.supports(null)).thenReturn(true);
-        Mockito.when(defaultStrategyMock.getKata(null)).thenReturn(kata);
+        Mockito.when(defaultStrategyMock.supports(null, null)).thenReturn(true);
+        Mockito.when(defaultStrategyMock.getKata(null, null)).thenReturn(kata);
 
-        Kata result = handler.handle(null);
+        Kata result = handler.handle(null, null);
 
         assertThat(result).isNotNull();
         assertThat(result.getTitle()).isEqualTo("Daily Stand-up kata");
 
-        Mockito.verify(defaultStrategyMock).getKata(null);
+        Mockito.verify(defaultStrategyMock).getKata(null, null);
 
-        Mockito.verify(categoryStrategyMock).supports(null);
-        Mockito.verify(categoryStrategyMock, Mockito.never()).getKata(Mockito.any());
+        Mockito.verify(categoryStrategyMock).supports(null, null);
+        Mockito.verify(categoryStrategyMock, Mockito.never()).getKata(Mockito.any(), Mockito.any());
         Mockito.verifyNoMoreInteractions(categoryStrategyMock);
     }
 
@@ -76,15 +76,15 @@ class RandomKataHandlerTest {
     void handle_shouldThrowExceptionWhenNoStrategySupports() {
         String invalidCategory = "SOCCER";
 
-        Mockito.when(categoryStrategyMock.supports(invalidCategory)).thenReturn(false);
-        Mockito.when(defaultStrategyMock.supports(invalidCategory)).thenReturn(false);
+        Mockito.when(categoryStrategyMock.supports(invalidCategory, null)).thenReturn(false);
+        Mockito.when(defaultStrategyMock.supports(invalidCategory, null)).thenReturn(false);
 
-        assertThatThrownBy(() -> handler.handle(invalidCategory))
+        assertThatThrownBy(() -> handler.handle(invalidCategory, null))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("No strategy found for provided parameters");
 
-        Mockito.verify(categoryStrategyMock).supports(invalidCategory);
-        Mockito.verify(defaultStrategyMock).supports(invalidCategory);
+        Mockito.verify(categoryStrategyMock).supports(invalidCategory, null);
+        Mockito.verify(defaultStrategyMock).supports(invalidCategory, null);
 
         Mockito.verifyNoMoreInteractions(categoryStrategyMock, defaultStrategyMock);
     }

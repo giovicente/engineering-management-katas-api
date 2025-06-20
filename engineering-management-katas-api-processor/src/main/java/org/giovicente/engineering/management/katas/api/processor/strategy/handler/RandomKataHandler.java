@@ -13,11 +13,11 @@ public class RandomKataHandler {
 
     private final List<RandomKataStrategy> strategies;
 
-    public Kata handle(String category) {
+    public Kata handle(String category, String level) {
         return strategies.stream()
-                .filter(strategy -> strategy.supports(category))
+                .filter(strategy -> strategy.supports(category, level))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("No strategy found for provided parameters"))
-                .getKata(category);
+                .getKata(category, level);
     }
 }

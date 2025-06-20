@@ -15,7 +15,10 @@ INSERT INTO kata (id, category, description, title, level) VALUES
   (uuid_generate_v4(), 'TECHNICAL', 'The project has poor test coverage and everyone is afraid of touching the code. How do you lead a turnaround?', 'Low Test Coverage', 'MEDIUM'),
   (uuid_generate_v4(), 'TECHNICAL', 'The deployment pipeline frequently fails, causing instability and delays. How do you address this without paralyzing the team?', 'Fragile Deployment Pipeline', 'EASY'),
   (uuid_generate_v4(), 'TECHNICAL', 'Part of the team wants to adopt a new tech stack while others fear losing productivity. How do you decide?', 'Tech Stack Misalignment', 'MEDIUM'),
-  (uuid_generate_v4(), 'TECHNICAL', 'You notice your team is struggling to fully understand the functional and technical scope of what needs to be done. How do you approach this?', 'Team facing comprehension challenges', 'EASY');
+  (uuid_generate_v4(), 'TECHNICAL', 'You notice your team is struggling to fully understand the functional and technical scope of what needs to be done. How do you approach this?', 'Team facing comprehension challenges', 'EASY'),
+  (uuid_generate_v4(), 'TECHNICAL', 'Imagine you have inherited a tightly coupled monolithic system with degraded performance during peak hours and a codebase that is difficult to evolve. Given a six-month timeframe, limited team capacity, a constrained budget, and no possibility of a full rewrite, what would be your technical plan to address these issues? Please detail how you would approach architectural decisions, incremental refactoring, observability, and risk management.', 'Dealing with Legacy System Issues', 'HARD'),
+  (uuid_generate_v4(), 'TECHNICAL', 'Reflect on an unpopular technical decision you made. How did the team react? How did you justify your position? What was the outcome?', 'Defending a technical decision that was not well received', 'HARD'),
+  (uuid_generate_v4(), 'TECHNICAL', 'Reflect on the biggest technical challenge you have faced. What was the challenge? How did you respond? How was the problem resolved?', 'Biggest Technical Challenge', 'HARD');
 
 -- STRATEGIC KATAS
 INSERT INTO kata (id, category, description, title, level) VALUES

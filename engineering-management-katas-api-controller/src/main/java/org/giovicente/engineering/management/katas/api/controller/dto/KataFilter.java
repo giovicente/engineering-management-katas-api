@@ -11,4 +11,5 @@ import lombok.Setter;
 @NoArgsConstructor
 public class KataFilter {
     private String category;
+    private String level;
 }

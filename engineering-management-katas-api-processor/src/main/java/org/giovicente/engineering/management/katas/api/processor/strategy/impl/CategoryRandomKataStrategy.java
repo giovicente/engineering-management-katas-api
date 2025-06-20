@@ -14,12 +14,12 @@ public class CategoryRandomKataStrategy implements RandomKataStrategy {
     private final EngineeringManagementKatasApiProcessor processor;
 
     @Override
-    public boolean supports(String category) {
-        return category != null && !category.isBlank();
+    public boolean supports(String category, String level) {
+        return (category != null && !category.isBlank()) && (level == null || level.isBlank());
     }
 
     @Override
-    public Kata getKata(String category) {
+    public Kata getKata(String category, String level) {
         return processor.getRandomKataByCategory(Category.valueOf(category));
     }
 }

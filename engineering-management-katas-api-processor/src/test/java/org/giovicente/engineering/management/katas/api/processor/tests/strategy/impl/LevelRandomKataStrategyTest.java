@@ -5,7 +5,7 @@ import org.giovicente.engineering.management.katas.api.core.strategy.RandomKataS
 import org.giovicente.engineering.management.katas.api.domain.enums.Category;
 import org.giovicente.engineering.management.katas.api.domain.enums.Level;
 import org.giovicente.engineering.management.katas.api.domain.model.Kata;
-import org.giovicente.engineering.management.katas.api.processor.strategy.impl.DefaultRandomKataStrategy;
+import org.giovicente.engineering.management.katas.api.processor.strategy.impl.LevelRandomKataStrategy;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -14,7 +14,7 @@ import java.util.UUID;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-class DefaultRandomKataStrategyTest {
+class LevelRandomKataStrategyTest {
 
     private EngineeringManagementKatasApiProcessor processorMock;
     private RandomKataStrategy strategy;
@@ -24,7 +24,7 @@ class DefaultRandomKataStrategyTest {
     @BeforeEach
     void setUp() {
         processorMock = Mockito.mock(EngineeringManagementKatasApiProcessor.class);
-        strategy = new DefaultRandomKataStrategy(processorMock);
+        strategy = new LevelRandomKataStrategy(processorMock);
 
         kata = Kata.builder()
                 .id(UUID.randomUUID())
@@ -36,27 +36,28 @@ class DefaultRandomKataStrategyTest {
     }
 
     @Test
-    void supports_shouldReturnFalseForNonNullAndNonBlankCategory() {
-        assertThat(strategy.supports("TECHNICAL", null)).isFalse();
-        assertThat(strategy.supports("  BEHAVIORAL ", null)).isFalse();
+    void supports_shouldReturnTrueForNonNullAndNonBlankLevel() {
+        assertThat(strategy.supports(null, "EASY")).isTrue();
+        assertThat(strategy.supports(null, "  HARD  ")).isTrue();
     }
 
     @Test
-    void supports_shouldReturnTrueForNullOrBlankCategory() {
-        assertThat(strategy.supports(null, null)).isTrue();
-        assertThat(strategy.supports("", null)).isTrue();
-        assertThat(strategy.supports("   ", null)).isTrue();
+    void supports_shouldReturnFalseForNullOrBlankLevel() {
+        assertThat(strategy.supports(null, null)).isFalse();
+        assertThat(strategy.supports(null, "")).isFalse();
+        assertThat(strategy.supports(null, "   ")).isFalse();
     }
 
     @Test
-    void getKata_shouldDelegateToProcessorToGetRandomKataByDefault() {
-        Mockito.when(processorMock.getRandomKataByDefault()).thenReturn(kata);
+    void getKata_shouldDelegateToProcessorToGetRandomKataByLevel() {
+        String level = "EASY";
+        Mockito.when(processorMock.getRandomKataByLevel(Level.valueOf(level))).thenReturn(kata);
 
-        Kata result = strategy.getKata(null, null);
+        Kata result = strategy.getKata(null, level);
 
         assertThat(result).isNotNull();
         assertThat(result.getTitle()).isEqualTo("Daily Stand-up kata");
 
-        Mockito.verify(processorMock).getRandomKataByDefault();
+        Mockito.verify(processorMock).getRandomKataByLevel(Level.valueOf(level));
     }
 }

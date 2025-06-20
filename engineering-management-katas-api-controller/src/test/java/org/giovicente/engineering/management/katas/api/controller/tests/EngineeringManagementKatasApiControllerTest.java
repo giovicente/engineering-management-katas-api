@@ -51,8 +51,8 @@ class EngineeringManagementKatasApiControllerTest {
     }
 
     @Test
-    void getRandom_withoutCategory_shouldReturnOk() throws Exception {
-        Mockito.when(handler.handle(null)).thenReturn(kata);
+    void getRandom_withoutCategoryAndLevel_shouldReturnOk() throws Exception {
+        Mockito.when(handler.handle(null, null)).thenReturn(kata);
         Mockito.when(dtoMapper.toResponse(kata)).thenReturn(kataResponse);
 
         mockMvc.perform(get("/katas")
@@ -67,7 +67,7 @@ class EngineeringManagementKatasApiControllerTest {
 
     @Test
     void getRandom_withValidCategory_shouldReturnOk() throws Exception {
-        Mockito.when(handler.handle(String.valueOf(Category.TECHNICAL))).thenReturn(kata);
+        Mockito.when(handler.handle(String.valueOf(Category.TECHNICAL), null)).thenReturn(kata);
         Mockito.when(dtoMapper.toResponse(kata)).thenReturn(kataResponse);
 
         mockMvc.perform(get("/katas")
@@ -87,5 +87,29 @@ class EngineeringManagementKatasApiControllerTest {
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest())
                 .andExpect(content().string("Invalid category: invalidCategory"));
+    }
+
+    @Test
+    void getRandom_withValidLevel_shouldReturnOk() throws Exception {
+        Mockito.when(handler.handle(null, String.valueOf(Level.EASY))).thenReturn(kata);
+        Mockito.when(dtoMapper.toResponse(kata)).thenReturn(kataResponse);
+
+        mockMvc.perform(get("/katas")
+                        .param("level", "easy")
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.category").value(String.valueOf(Category.TECHNICAL)))
+                .andExpect(jsonPath("$.title").value("Daily Stand-up kata"))
+                .andExpect(jsonPath("$.description").value("How to improve your team's daily meeting?"))
+                .andExpect(jsonPath("$.level").value(String.valueOf(Level.EASY)));
+    }
+
+    @Test
+    void getRandom_withInvalidLevel_shouldReturnBadRequest() throws Exception {
+        mockMvc.perform(get("/katas")
+                        .param("level", "invalidLevel")
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string("Invalid level: invalidLevel"));
     }
 }

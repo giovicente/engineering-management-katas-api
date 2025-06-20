@@ -37,23 +37,23 @@ class CategoryRandomKataStrategyTest {
 
     @Test
     void supports_shouldReturnTrueForNonNullAndNonBlankCategory() {
-        assertThat(strategy.supports("TECHNICAL")).isTrue();
-        assertThat(strategy.supports("  BEHAVIORAL ")).isTrue();
+        assertThat(strategy.supports("TECHNICAL", null)).isTrue();
+        assertThat(strategy.supports("  BEHAVIORAL ", null)).isTrue();
     }
 
     @Test
     void supports_shouldReturnFalseForNullOrBlankCategory() {
-        assertThat(strategy.supports(null)).isFalse();
-        assertThat(strategy.supports("")).isFalse();
-        assertThat(strategy.supports("   ")).isFalse();
+        assertThat(strategy.supports(null, null)).isFalse();
+        assertThat(strategy.supports("", null)).isFalse();
+        assertThat(strategy.supports("   ", null)).isFalse();
     }
 
     @Test
-    void getKata_shouldDelegateToProcessor() {
+    void getKata_shouldDelegateToProcessorToGetRandomKataByCategory() {
         String category = "TECHNICAL";
         Mockito.when(processorMock.getRandomKataByCategory(Category.valueOf(category))).thenReturn(kata);
 
-        Kata result = strategy.getKata(category);
+        Kata result = strategy.getKata(category, null);
 
         assertThat(result).isNotNull();
         assertThat(result.getTitle()).isEqualTo("Daily Stand-up kata");

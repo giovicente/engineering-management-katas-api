@@ -4,6 +4,7 @@ import org.giovicente.engineering.management.katas.api.adapter.persistence.entit
 import org.giovicente.engineering.management.katas.api.adapter.persistence.repository.KataRepository;
 import org.giovicente.engineering.management.katas.api.domain.enums.Category;
 import org.giovicente.engineering.management.katas.api.domain.enums.Level;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -28,17 +29,21 @@ class KataRepositoryTest {
     @Autowired
     KataRepository repository;
 
-    @Test
-    void findRandomKata_shouldPersistAndReturnKata() {
+    private KataEntity entity;
 
-        KataEntity entity = KataEntity.builder()
+    @BeforeEach
+    void setUp() {
+        entity = KataEntity.builder()
                 .id(UUID.randomUUID())
                 .category(Category.TECHNICAL)
                 .title("Daily Stand-up kata")
                 .description("How to improve your team's daily meeting?")
                 .level(Level.EASY)
                 .build();
+    }
 
+    @Test
+    void findRandomKata_shouldPersistAndReturnKata() {
         repository.save(entity);
         KataEntity result = repository.findRandomKata();
 
@@ -50,18 +55,21 @@ class KataRepositoryTest {
     }
 
     @Test
-    void findRandomKata_shouldPersistAndReturnKataByCategory() {
-
-        KataEntity entity = KataEntity.builder()
-                .id(UUID.randomUUID())
-                .category(Category.TECHNICAL)
-                .title("Daily Stand-up kata")
-                .description("How to improve your team's daily meeting?")
-                .level(Level.EASY)
-                .build();
-
+    void findRandomKataByCategory_shouldPersistAndReturnKata() {
         repository.save(entity);
         KataEntity result = repository.findRandomKataByCategory(entity.getCategory().toString());
+
+        assertThat(result).isNotNull();
+        assertThat(result.getCategory()).isEqualTo(entity.getCategory());
+        assertThat(result.getTitle()).isEqualTo(entity.getTitle());
+        assertThat(result.getDescription()).isEqualTo(entity.getDescription());
+        assertThat(result.getLevel()).isEqualTo(entity.getLevel());
+    }
+
+    @Test
+    void findRandomKataByLevel_shouldPersistAndReturnKata() {
+        repository.save(entity);
+        KataEntity result = repository.findRandomKataByLevel(entity.getLevel().toString());
 
         assertThat(result).isNotNull();
         assertThat(result.getCategory()).isEqualTo(entity.getCategory());

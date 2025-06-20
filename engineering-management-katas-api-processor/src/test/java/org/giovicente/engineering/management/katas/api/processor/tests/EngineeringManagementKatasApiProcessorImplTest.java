@@ -99,4 +99,33 @@ class EngineeringManagementKatasApiProcessorImplTest {
         verify(repository, times(0)).findRandomKataByCategory(invalidCategory);
         verifyNoInteractions(mapper);
     }
+
+    @Test
+    void getRandomKataByLevel_shouldReturnRandomKataByCategoryWhenLevelIsValid() {
+        when(repository.findRandomKataByLevel(model.getLevel().toString())).thenReturn(entity);
+        when(mapper.toModel(entity)).thenReturn(model);
+
+        final String LEVEL_REQUEST_PARAM = "EASY";
+
+        Kata actual = processor.getRandomKataByLevel(Level.valueOf(LEVEL_REQUEST_PARAM));
+
+        assertNotNull(actual);
+        assertEquals("Daily Stand-up kata", actual.getTitle());
+        assertEquals(Level.EASY, actual.getLevel());
+        verify(repository, times(1)).findRandomKataByLevel(LEVEL_REQUEST_PARAM);
+        verify(mapper, times(1)).toModel(entity);
+    }
+
+    @Test
+    void getRandomKataByLevel_shouldThrowExceptionForInvalidLevel() {
+        String invalidLevel = "NIGHTMARE";
+        when(repository.findRandomKataByLevel(invalidLevel)).thenReturn(null);
+
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
+                () -> processor.getRandomKataByLevel(Level.valueOf(invalidLevel)));
+
+        assertEquals("No enum constant org.giovicente.engineering.management.katas.api.domain.enums.Level." + invalidLevel, exception.getMessage());
+        verify(repository, times(0)).findRandomKataByLevel(invalidLevel);
+        verifyNoInteractions(mapper);
+    }
 }
