@@ -53,6 +53,7 @@ engineering-management-katas-api/
 │       ├── main/
 │       │   └── java/org/giovicente/engineering/management/katas/api/controller 
 │       │       ├── dto/
+│       │       ├── error/
 │       │       └── mapper/
 │       └── test/
 │           └── java/org/giovicente/engineering/management/katas/api/controller/tests/
@@ -122,5 +123,4 @@ All profits from the frontend's advertising will go solely to the author.
 
 - Add PostgreSQL connection with Docker
 - Use correct data structure in Strategy Pattern Handler (HashMap instead of List)
-- Error responses with Problem Details
 - Implement basic GUI in React (future)
