@@ -121,6 +121,6 @@ All profits from the frontend's advertising will go solely to the author.
 ## 🚧 Next Steps
 
 - Add PostgreSQL connection with Docker
-- Get random kata by category and level use case
 - Use correct data structure in Strategy Pattern Handler (HashMap instead of List)
+- Error responses with Problem Details
 - Implement basic GUI in React (future)

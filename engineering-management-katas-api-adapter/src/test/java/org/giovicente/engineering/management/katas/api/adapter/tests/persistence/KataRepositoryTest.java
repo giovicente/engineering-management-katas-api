@@ -40,11 +40,12 @@ class KataRepositoryTest {
                 .description("How to improve your team's daily meeting?")
                 .level(Level.EASY)
                 .build();
+
+        repository.save(entity);
     }
 
     @Test
     void findRandomKata_shouldPersistAndReturnKata() {
-        repository.save(entity);
         KataEntity result = repository.findRandomKata();
 
         assertThat(result).isNotNull();
@@ -56,7 +57,6 @@ class KataRepositoryTest {
 
     @Test
     void findRandomKataByCategory_shouldPersistAndReturnKata() {
-        repository.save(entity);
         KataEntity result = repository.findRandomKataByCategory(entity.getCategory().toString());
 
         assertThat(result).isNotNull();
@@ -68,8 +68,18 @@ class KataRepositoryTest {
 
     @Test
     void findRandomKataByLevel_shouldPersistAndReturnKata() {
-        repository.save(entity);
         KataEntity result = repository.findRandomKataByLevel(entity.getLevel().toString());
+
+        assertThat(result).isNotNull();
+        assertThat(result.getCategory()).isEqualTo(entity.getCategory());
+        assertThat(result.getTitle()).isEqualTo(entity.getTitle());
+        assertThat(result.getDescription()).isEqualTo(entity.getDescription());
+        assertThat(result.getLevel()).isEqualTo(entity.getLevel());
+    }
+
+    @Test
+    void findRandomKataByCategoryAndLevel_shouldPersistAndReturnKata() {
+        KataEntity result = repository.findRandomKataByCategoryAndLevel(entity.getCategory().toString(), entity.getLevel().toString());
 
         assertThat(result).isNotNull();
         assertThat(result.getCategory()).isEqualTo(entity.getCategory());

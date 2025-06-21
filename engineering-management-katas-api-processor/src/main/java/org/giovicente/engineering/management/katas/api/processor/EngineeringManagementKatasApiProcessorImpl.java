@@ -31,6 +31,18 @@ public class EngineeringManagementKatasApiProcessorImpl implements EngineeringMa
 
     @Override
     public Kata getRandomKataByLevel(Level level) {
-        return mapper.toModel(repository.findRandomKataByLevel(String.valueOf(level)));
+        return mapper.toModel(
+                repository.findRandomKataByLevel(String.valueOf(level))
+        );
+    }
+
+    @Override
+    public Kata getRandomKataByCategoryAndLevel(Category category, Level level) {
+        return mapper.toModel(
+                repository.findRandomKataByCategoryAndLevel(
+                        String.valueOf(category),
+                        String.valueOf(level)
+                )
+        );
     }
 }

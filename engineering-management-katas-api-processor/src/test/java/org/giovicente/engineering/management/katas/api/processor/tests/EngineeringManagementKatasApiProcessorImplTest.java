@@ -128,4 +128,25 @@ class EngineeringManagementKatasApiProcessorImplTest {
         verify(repository, times(0)).findRandomKataByLevel(invalidLevel);
         verifyNoInteractions(mapper);
     }
+
+    @Test
+    void getRandomKataByCategoryAndLevel_shouldReturnRandomKataByCategoryWhenInputIsValid() {
+        when(repository.findRandomKataByCategoryAndLevel(model.getCategory().toString(), model.getLevel().toString())).thenReturn(entity);
+        when(mapper.toModel(entity)).thenReturn(model);
+
+        final String CATEGORY_REQUEST_PARAM = "TECHNICAL";
+        final String LEVEL_REQUEST_PARAM = "EASY";
+
+        Kata actual = processor.getRandomKataByCategoryAndLevel(
+                Category.valueOf(CATEGORY_REQUEST_PARAM),
+                Level.valueOf(LEVEL_REQUEST_PARAM)
+        );
+
+        assertNotNull(actual);
+        assertEquals("Daily Stand-up kata", actual.getTitle());
+        assertEquals(Level.EASY, actual.getLevel());
+        verify(repository, times(1))
+                .findRandomKataByCategoryAndLevel(CATEGORY_REQUEST_PARAM, LEVEL_REQUEST_PARAM);
+        verify(mapper, times(1)).toModel(entity);
+    }
 }

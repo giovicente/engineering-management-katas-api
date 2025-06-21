@@ -112,4 +112,20 @@ class EngineeringManagementKatasApiControllerTest {
                 .andExpect(status().isBadRequest())
                 .andExpect(content().string("Invalid level: invalidLevel"));
     }
+
+    @Test
+    void getRandom_withValidInput_shouldReturnOk() throws Exception {
+        Mockito.when(handler.handle(String.valueOf(Category.TECHNICAL), String.valueOf(Level.EASY))).thenReturn(kata);
+        Mockito.when(dtoMapper.toResponse(kata)).thenReturn(kataResponse);
+
+        mockMvc.perform(get("/katas")
+                        .param("category", "technical")
+                        .param("level", "easy")
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.category").value(String.valueOf(Category.TECHNICAL)))
+                .andExpect(jsonPath("$.title").value("Daily Stand-up kata"))
+                .andExpect(jsonPath("$.description").value("How to improve your team's daily meeting?"))
+                .andExpect(jsonPath("$.level").value(String.valueOf(Level.EASY)));
+    }
 }
