@@ -1,3 +1,16 @@
+-- ENABLE UUID EXTENSION
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
+-- CREATE TABLE kata
+CREATE TABLE kata (
+    id UUID NOT NULL,
+    description VARCHAR(550),
+    category VARCHAR(255) CHECK (category IN ('BEHAVIORAL','TECHNICAL','STRATEGIC')),
+    level VARCHAR(255) CHECK (level IN ('EASY','MEDIUM','HARD')),
+    title VARCHAR(255),
+    PRIMARY KEY (id)
+);
+
 -- BEHAVIORAL KATAS
 INSERT INTO kata (id, category, description, title, level) VALUES
   (uuid_generate_v4(), 'BEHAVIORAL', 'How do you deliver hard but necessary feedback to a senior team member without damaging confidence or causing defensiveness?', 'Tough Feedback', 'MEDIUM'),

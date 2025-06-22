@@ -24,7 +24,10 @@ engineering-management-katas-api/
 ├── pom.xml                        # Parent pom
 ├── README.md                      # Project description
 ├── LICENSE                        # Project license
-├── docker-compose.yml             # (Planned) For local DB and services
+├── .env                           # Environment Variables
+├── docker-compose.yml             # For local DB and services
+├── docker/db/                     # For initial database setup file
+│   └── seed_katas.sql
 │
 ├── engineering-management-katas-api-adapter/                       # Infrastructure: database, web, external APIs
 │   ├── pom.xml
