@@ -17,5 +17,16 @@ services:
       - postgres_data:/var/lib/postgresql/data
       - ./docker/db/seed_katas.sql:/docker-entrypoint-initdb.d/seed_katas.sql:ro
 
+  app:
+    build: .
+    container_name: engineering_management_katas_api
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+    env_file:
+      - .env
+
 volumes:
   postgres_data:

@@ -25,6 +25,7 @@ engineering-management-katas-api/
 ├── README.md                      # Project description
 ├── LICENSE                        # Project license
 ├── .env                           # Environment Variables
+├── Dockerfile                     # App image
 ├── docker-compose.yml             # For local DB and services
 ├── docker/db/                     # For initial database setup file
 │   └── seed_katas.sql
@@ -96,16 +97,19 @@ engineering-management-katas-api/
 
 Before running the application, ensure you have the following installed:
 
-- **Java 17** or later (You can check your version with: `java -version`)
-- **Maven** (You can check your version with: `mvn -v`)
+- **Java 17** or later  
+  *(Check with: `java -version`)*
+- **Maven**  
+  *(Check with: `mvn -v`)*
 - **PostgreSQL 12+**
 
 ## 🧪 Run locally
 
-### Using Maven Command
+### Using Maven Command (without Docker)
 
-To run the application locally, navigate to the root directory of the project and use the following Maven commands:
-
+1️⃣ Start your local PostgreSQL instance.  
+2️⃣ Make sure your `application.yaml` is configured with the correct database URL, username, and password.  
+3️⃣ Build and run the Spring Boot application:
 ```bash
 mvn clean install
 ```
@@ -113,6 +117,34 @@ mvn clean install
 ```bash
 mvn spring-boot:run -pl engineering-management-katas-api-application
 ```
+
+### 🐳 Running with Docker Compose
+
+You can also run the entire stack (PostgreSQL + Spring Boot app) using Docker Compose:
+
+```bash
+docker-compose up --build
+```
+
+This command will:
+- Build the Spring Boot application inside a container.
+- Spin up a PostgreSQL container with the provided seed data.
+- Start both services in a shared Docker network.
+
+#### ⚙️ Configuration
+- The app uses environment variables defined in the .env file.
+- Make sure your .env contains the correct database credentials and connection URL for Docker:
+
+```bash
+SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/engineering_management_katas
+SPRING_DATASOURCE_USERNAME=postgres
+SPRING_DATASOURCE_PASSWORD=your_password_here
+```
+
+#### ✅ Notes
+- The Docker build uses Maven to generate a Spring Boot fat jar with the correct Main-Class.
+- The PostgreSQL service runs with an initialization SQL script located at docker/db/seed_katas.sql.
+- Volumes are used to persist PostgreSQL data between container restarts.
 
 ## 📄 License
 
@@ -124,6 +156,5 @@ All profits from the frontend's advertising will go solely to the author.
 
 ## 🚧 Next Steps
 
-- Add PostgreSQL connection with Docker
-- Use correct data structure in Strategy Pattern Handler (HashMap instead of List)
+- Implement null handling with Optional
 - Implement basic GUI in React (future)
