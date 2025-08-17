@@ -6,6 +6,8 @@ import org.giovicente.engineering.management.katas.api.core.strategy.RandomKataS
 import org.giovicente.engineering.management.katas.api.domain.model.Kata;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+
 @Component
 @RequiredArgsConstructor
 public class DefaultRandomKataStrategy implements RandomKataStrategy {
@@ -13,12 +15,12 @@ public class DefaultRandomKataStrategy implements RandomKataStrategy {
     private final EngineeringManagementKatasApiProcessor processor;
 
     @Override
-    public boolean supports(String category, String level) {
-        return (category == null || category.isBlank()) && (level == null || level.isBlank());
+    public boolean supports(Optional<String> category, Optional<String> level) {
+        return category.isEmpty() && level.isEmpty();
     }
 
     @Override
-    public Kata getKata(String category, String level) {
+    public Kata getKata(Optional<String> category, Optional<String> level) {
         return processor.getRandomKataByDefault();
     }
 }

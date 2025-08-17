@@ -6,6 +6,7 @@ import org.giovicente.engineering.management.katas.api.domain.model.Kata;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -13,7 +14,7 @@ public class RandomKataHandler {
 
     private final List<RandomKataStrategy> strategies;
 
-    public Kata handle(String category, String level) {
+    public Kata handle(Optional<String> category, Optional<String> level) {
         return strategies.stream()
                 .filter(strategy -> strategy.supports(category, level))
                 .findFirst()

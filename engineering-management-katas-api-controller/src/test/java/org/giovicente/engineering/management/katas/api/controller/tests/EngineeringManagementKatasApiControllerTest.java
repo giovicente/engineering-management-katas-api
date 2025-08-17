@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -34,6 +35,9 @@ class EngineeringManagementKatasApiControllerTest {
 
     private Kata kata;
     private KataResponse kataResponse;
+
+    private Optional<String> category;
+    private Optional<String> level;
 
     @BeforeEach
     void setUp() {
@@ -54,11 +58,14 @@ class EngineeringManagementKatasApiControllerTest {
                 .build();
 
         kataResponse = new KataResponse(kata.getCategory(), kata.getTitle(), kata.getDescription(), kata.getLevel());
+
+        category = Optional.of("TECHNICAL");
+        level = Optional.of("EASY");
     }
 
     @Test
     void getRandom_withoutCategoryAndLevel_shouldReturnOk() throws Exception {
-        Mockito.when(handler.handle(null, null)).thenReturn(kata);
+        Mockito.when(handler.handle(Optional.empty(), Optional.empty())).thenReturn(kata);
         Mockito.when(dtoMapper.toResponse(kata)).thenReturn(kataResponse);
 
         mockMvc.perform(get("/katas")
@@ -73,7 +80,7 @@ class EngineeringManagementKatasApiControllerTest {
 
     @Test
     void getRandom_withValidCategory_shouldReturnOk() throws Exception {
-        Mockito.when(handler.handle(String.valueOf(Category.TECHNICAL), null)).thenReturn(kata);
+        Mockito.when(handler.handle(category, Optional.empty())).thenReturn(kata);
         Mockito.when(dtoMapper.toResponse(kata)).thenReturn(kataResponse);
 
         mockMvc.perform(get("/katas")
@@ -88,7 +95,7 @@ class EngineeringManagementKatasApiControllerTest {
 
     @Test
     void getRandom_withValidLevel_shouldReturnOk() throws Exception {
-        Mockito.when(handler.handle(null, String.valueOf(Level.EASY))).thenReturn(kata);
+        Mockito.when(handler.handle(Optional.empty(), level)).thenReturn(kata);
         Mockito.when(dtoMapper.toResponse(kata)).thenReturn(kataResponse);
 
         mockMvc.perform(get("/katas")
@@ -103,7 +110,7 @@ class EngineeringManagementKatasApiControllerTest {
 
     @Test
     void getRandom_withValidInput_shouldReturnOk() throws Exception {
-        Mockito.when(handler.handle(String.valueOf(Category.TECHNICAL), String.valueOf(Level.EASY))).thenReturn(kata);
+        Mockito.when(handler.handle(category, level)).thenReturn(kata);
         Mockito.when(dtoMapper.toResponse(kata)).thenReturn(kataResponse);
 
         mockMvc.perform(get("/katas")

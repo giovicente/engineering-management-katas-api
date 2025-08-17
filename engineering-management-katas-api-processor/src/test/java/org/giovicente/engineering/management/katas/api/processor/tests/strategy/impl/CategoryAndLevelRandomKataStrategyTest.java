@@ -10,6 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -37,57 +38,25 @@ class CategoryAndLevelRandomKataStrategyTest {
 
     @Test
     void supports_shouldReturnTrueForNonNullAndNonBlankInput() {
-        assertThat(strategy.supports("TECHNICAL", "EASY")).isTrue();
-        assertThat(strategy.supports("  TECHNICAL ", "  EASY ")).isTrue();
-
-        assertThat(strategy.supports("   TECHNICAL   ", "EASY")).isTrue();
-        assertThat(strategy.supports("TECHNICAL", "   EASY   ")).isTrue();
+        assertThat(strategy.supports("TECHNICAL".describeConstable(), "EASY".describeConstable())).isTrue();
     }
 
     @Test
     void supports_shouldReturnFalseForNullOrBlankInput() {
-        assertThat(strategy.supports(null, null)).isFalse();
-
-        assertThat(strategy.supports("", "")).isFalse();
-        assertThat(strategy.supports("   ", "   ")).isFalse();
-
-        assertThat(strategy.supports("", "   ")).isFalse();
-        assertThat(strategy.supports("   ", "")).isFalse();
-
-        assertThat(strategy.supports("", null)).isFalse();
-        assertThat(strategy.supports("   ", null)).isFalse();
-
-        assertThat(strategy.supports(null, "")).isFalse();
-        assertThat(strategy.supports(null, "   ")).isFalse();
-
-        assertThat(strategy.supports("TECHNICAL", null)).isFalse();
-        assertThat(strategy.supports("   TECHNICAL   ", null)).isFalse();
-
-        assertThat(strategy.supports("TECHNICAL", "")).isFalse();
-        assertThat(strategy.supports("TECHNICAL", "   ")).isFalse();
-
-        assertThat(strategy.supports("   TECHNICAL   ", "")).isFalse();
-        assertThat(strategy.supports("   TECHNICAL   ", "   ")).isFalse();
-
-        assertThat(strategy.supports(null, "EASY")).isFalse();
-        assertThat(strategy.supports(null, "   EASY   ")).isFalse();
-
-        assertThat(strategy.supports("", "EASY")).isFalse();
-        assertThat(strategy.supports("   ", "EASY")).isFalse();
-
-        assertThat(strategy.supports("", "   EASY   ")).isFalse();
-        assertThat(strategy.supports("   ", "   EASY   ")).isFalse();
+        assertThat(strategy.supports(Optional.empty(), Optional.empty())).isFalse();
+        assertThat(strategy.supports("TECHNICAL".describeConstable(), Optional.empty())).isFalse();
+        assertThat(strategy.supports(Optional.empty(), "EASY".describeConstable())).isFalse();
     }
 
     @Test
     void getKata_shouldDelegateToProcessorToGetRandomKataByCategoryAndLevel() {
-        String category = "TECHNICAL";
-        String level = "EASY";
+        Optional<String> category = Optional.of("TECHNICAL");
+        Optional<String> level = Optional.of("EASY");
 
         Mockito.when(
                 processorMock.getRandomKataByCategoryAndLevel(
-                        Category.valueOf(category),
-                        Level.valueOf(level)
+                        Category.valueOf(category.orElse("Invalid Value")),
+                        Level.valueOf(level.orElse("Invalid Value"))
                     )
                 )
                 .thenReturn(kata);
@@ -98,7 +67,7 @@ class CategoryAndLevelRandomKataStrategyTest {
         assertThat(result.getTitle()).isEqualTo("Daily Stand-up kata");
 
         Mockito.verify(processorMock).getRandomKataByCategoryAndLevel(
-                Category.valueOf(category), Level.valueOf(level)
+                Category.valueOf(category.orElse("Invalid Value")), Level.valueOf(level.orElse("Invalid Value"))
         );
     }
 }

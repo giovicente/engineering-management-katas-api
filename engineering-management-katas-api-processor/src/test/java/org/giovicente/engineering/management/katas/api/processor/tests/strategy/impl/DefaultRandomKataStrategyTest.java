@@ -10,6 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -37,22 +38,20 @@ class DefaultRandomKataStrategyTest {
 
     @Test
     void supports_shouldReturnFalseForNonNullAndNonBlankCategory() {
-        assertThat(strategy.supports("TECHNICAL", null)).isFalse();
-        assertThat(strategy.supports("  BEHAVIORAL ", null)).isFalse();
+        assertThat(strategy.supports("TECHNICAL".describeConstable(), Optional.empty())).isFalse();
+        assertThat(strategy.supports("  BEHAVIORAL ".describeConstable(), Optional.empty())).isFalse();
     }
 
     @Test
     void supports_shouldReturnTrueForNullOrBlankCategory() {
-        assertThat(strategy.supports(null, null)).isTrue();
-        assertThat(strategy.supports("", null)).isTrue();
-        assertThat(strategy.supports("   ", null)).isTrue();
+        assertThat(strategy.supports(Optional.empty(), Optional.empty())).isTrue();
     }
 
     @Test
     void getKata_shouldDelegateToProcessorToGetRandomKataByDefault() {
         Mockito.when(processorMock.getRandomKataByDefault()).thenReturn(kata);
 
-        Kata result = strategy.getKata(null, null);
+        Kata result = strategy.getKata(Optional.empty(), Optional.empty());
 
         assertThat(result).isNotNull();
         assertThat(result.getTitle()).isEqualTo("Daily Stand-up kata");

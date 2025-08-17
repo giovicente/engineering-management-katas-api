@@ -122,6 +122,7 @@ mvn spring-boot:run -pl engineering-management-katas-api-application
 
 You can also run the entire stack (PostgreSQL + Spring Boot app) using Docker Compose:
 
+#### First time (or after changing the Dockerfile)
 ```bash
 docker-compose up --build
 ```
@@ -130,6 +131,20 @@ This command will:
 - Build the Spring Boot application inside a container.
 - Spin up a PostgreSQL container with the provided seed data.
 - Start both services in a shared Docker network.
+
+#### ⚠️ Use `--build` only when:
+
+- It's the first run.
+- You made changes to the Dockerfile.
+- You updated dependencies in pom.xml (or Gradle).
+- You modified resources that affect the image build (e.g., application.yaml copied inside the image).
+
+#### Next times (or after changing the Dockerfile)
+```bash
+docker compose up
+```
+
+This will simply start the containers using the already built images.
 
 #### ⚙️ Configuration
 - The app uses environment variables defined in the .env file.
@@ -156,5 +171,6 @@ All profits from the frontend's advertising will go solely to the author.
 
 ## 🚧 Next Steps
 
-- Implement null handling with Optional
-- Implement basic GUI in React (future)
+- [X] Implement null handling with Optional
+- [ ] Implement basic GUI in React
+- [ ] Deploy this entire project as a website
