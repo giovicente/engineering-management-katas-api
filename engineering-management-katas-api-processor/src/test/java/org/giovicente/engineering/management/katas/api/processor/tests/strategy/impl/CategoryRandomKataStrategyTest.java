@@ -10,6 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -37,27 +38,25 @@ class CategoryRandomKataStrategyTest {
 
     @Test
     void supports_shouldReturnTrueForNonNullAndNonBlankCategory() {
-        assertThat(strategy.supports("TECHNICAL", null)).isTrue();
-        assertThat(strategy.supports("  BEHAVIORAL ", null)).isTrue();
+        assertThat(strategy.supports("TECHNICAL".describeConstable(), Optional.empty())).isTrue();
     }
 
     @Test
     void supports_shouldReturnFalseForNullOrBlankCategory() {
-        assertThat(strategy.supports(null, null)).isFalse();
-        assertThat(strategy.supports("", null)).isFalse();
-        assertThat(strategy.supports("   ", null)).isFalse();
+        assertThat(strategy.supports(Optional.empty(), Optional.empty())).isFalse();
     }
 
     @Test
     void getKata_shouldDelegateToProcessorToGetRandomKataByCategory() {
-        String category = "TECHNICAL";
-        Mockito.when(processorMock.getRandomKataByCategory(Category.valueOf(category))).thenReturn(kata);
+        Optional<String> category = Optional.of("TECHNICAL");
+        System.out.println(Category.valueOf(category.orElse("Invalid Value")));
+        Mockito.when(processorMock.getRandomKataByCategory(Category.valueOf(category.orElse("Invalid Value")))).thenReturn(kata);
 
-        Kata result = strategy.getKata(category, null);
+        Kata result = strategy.getKata(category, Optional.empty());
 
         assertThat(result).isNotNull();
         assertThat(result.getTitle()).isEqualTo("Daily Stand-up kata");
 
-        Mockito.verify(processorMock).getRandomKataByCategory(Category.valueOf(category));
+        Mockito.verify(processorMock).getRandomKataByCategory(Category.valueOf(category.orElse("Invalid Value")));
     }
 }

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -25,26 +26,31 @@ public class EngineeringManagementKatasApiController {
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getRandom(@ModelAttribute KataFilter filter) {
-        String category = filter.getCategory();
-        String level = filter.getLevel();
+        Optional<String> category = Optional.ofNullable(filter.getCategory())
+                .map(String::trim)
+                .filter(s -> !s.isEmpty())
+                .map(String::toUpperCase);
+
+        Optional<String> level = Optional.ofNullable(filter.getLevel())
+                .map(String::trim)
+                .filter(s -> !s.isEmpty())
+                .map(String::toUpperCase);
 
         List<String> errorDetails = new LinkedList<>();
 
-        if (category != null) {
+        if (category.isPresent()) {
             try {
-                Category.valueOf(category.toUpperCase());
-                category = category.toUpperCase();
+                Category.valueOf(category.orElse("Invalid Filter"));
             } catch (IllegalArgumentException e) {
-                errorDetails.add("Invalid category informed: '" + category + "'. Allowed values: " + Category.validValues());
+                errorDetails.add("Invalid category informed: '" + filter.getCategory() + "'. Allowed values: " + Category.validValues());
             }
         }
 
-        if (level != null) {
+        if (level.isPresent()) {
             try {
-                Level.valueOf(level.toUpperCase());
-                level = level.toUpperCase();
+                Level.valueOf(level.orElse("Invalid Filter"));
             } catch (IllegalArgumentException e) {
-                errorDetails.add("Invalid level informed: '" + level + "'. Allowed values: " + Level.validValues());
+                errorDetails.add("Invalid level informed: '" + filter.getLevel() + "'. Allowed values: " + Level.validValues());
             }
         }
 

@@ -10,6 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -37,27 +38,25 @@ class LevelRandomKataStrategyTest {
 
     @Test
     void supports_shouldReturnTrueForNonNullAndNonBlankLevel() {
-        assertThat(strategy.supports(null, "EASY")).isTrue();
-        assertThat(strategy.supports(null, "  HARD  ")).isTrue();
+        assertThat(strategy.supports(Optional.empty(), "EASY".describeConstable())).isTrue();
+        assertThat(strategy.supports(Optional.empty(), "  HARD  ".describeConstable())).isTrue();
     }
 
     @Test
     void supports_shouldReturnFalseForNullOrBlankLevel() {
-        assertThat(strategy.supports(null, null)).isFalse();
-        assertThat(strategy.supports(null, "")).isFalse();
-        assertThat(strategy.supports(null, "   ")).isFalse();
+        assertThat(strategy.supports(Optional.empty(), Optional.empty())).isFalse();
     }
 
     @Test
     void getKata_shouldDelegateToProcessorToGetRandomKataByLevel() {
-        String level = "EASY";
-        Mockito.when(processorMock.getRandomKataByLevel(Level.valueOf(level))).thenReturn(kata);
+        Optional<String> level = Optional.of("EASY");
 
-        Kata result = strategy.getKata(null, level);
+        Mockito.when(processorMock.getRandomKataByLevel(Level.valueOf(level.orElse("Invalid Value")))).thenReturn(kata);
+        Kata result = strategy.getKata(Optional.empty(), level);
 
         assertThat(result).isNotNull();
         assertThat(result.getTitle()).isEqualTo("Daily Stand-up kata");
 
-        Mockito.verify(processorMock).getRandomKataByLevel(Level.valueOf(level));
+        Mockito.verify(processorMock).getRandomKataByLevel(Level.valueOf(level.orElse("Invalid Value")));
     }
 }

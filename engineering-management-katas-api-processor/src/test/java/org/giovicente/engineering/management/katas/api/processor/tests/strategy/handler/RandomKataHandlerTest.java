@@ -11,6 +11,7 @@ import org.mockito.Mockito;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -24,6 +25,9 @@ class RandomKataHandlerTest {
     private RandomKataStrategy categoryAndLevelStrategyMock;
 
     private Kata kata;
+
+    private Optional<String> category;
+    private Optional<String> level;
 
     @BeforeEach
     void setUp() {
@@ -41,19 +45,22 @@ class RandomKataHandlerTest {
                 .description("How to improve your team's daily meeting?")
                 .level(Level.EASY)
                 .build();
+
+        category = Optional.of("TECHNICAL");
+        level = Optional.of("EASY");
     }
 
     @Test
     void handle_shouldUseCategoryStrategy() {
-        Mockito.when(categoryStrategyMock.supports(Category.TECHNICAL.name(), null)).thenReturn(true);
-        Mockito.when(categoryStrategyMock.getKata(Category.TECHNICAL.name(), null)).thenReturn(kata);
+        Mockito.when(categoryStrategyMock.supports(category, Optional.empty())).thenReturn(true);
+        Mockito.when(categoryStrategyMock.getKata(category, Optional.empty())).thenReturn(kata);
 
-        Kata result = handler.handle(Category.TECHNICAL.name(), null);
+        Kata result = handler.handle(category, Optional.empty());
 
         assertThat(result).isNotNull();
         assertThat(result.getTitle()).isEqualTo("Daily Stand-up kata");
 
-        Mockito.verify(categoryStrategyMock).getKata(Category.TECHNICAL.name(), null);
+        Mockito.verify(categoryStrategyMock).getKata(category, Optional.empty());
 
         Mockito.verify(defaultStrategyMock, Mockito.never()).getKata(Mockito.any(), Mockito.any());
         Mockito.verify(categoryAndLevelStrategyMock, Mockito.never()).getKata(Mockito.any(), Mockito.any());
@@ -61,15 +68,15 @@ class RandomKataHandlerTest {
 
     @Test
     void handle_shouldUseDefaultStrategy() {
-        Mockito.when(defaultStrategyMock.supports(null, null)).thenReturn(true);
-        Mockito.when(defaultStrategyMock.getKata(null, null)).thenReturn(kata);
+        Mockito.when(defaultStrategyMock.supports(Optional.empty(), Optional.empty())).thenReturn(true);
+        Mockito.when(defaultStrategyMock.getKata(Optional.empty(), Optional.empty())).thenReturn(kata);
 
-        Kata result = handler.handle(null, null);
+        Kata result = handler.handle(Optional.empty(), Optional.empty());
 
         assertThat(result).isNotNull();
         assertThat(result.getTitle()).isEqualTo("Daily Stand-up kata");
 
-        Mockito.verify(defaultStrategyMock).getKata(null, null);
+        Mockito.verify(defaultStrategyMock).getKata(Optional.empty(), Optional.empty());
 
         Mockito.verify(categoryStrategyMock, Mockito.never()).getKata(Mockito.any(), Mockito.any());
         Mockito.verify(categoryAndLevelStrategyMock, Mockito.never()).getKata(Mockito.any(), Mockito.any());
@@ -77,15 +84,15 @@ class RandomKataHandlerTest {
 
     @Test
     void handle_shouldUseCategoryAndLevelStrategy() {
-        Mockito.when(categoryAndLevelStrategyMock.supports(Category.TECHNICAL.name(), Level.EASY.name())).thenReturn(true);
-        Mockito.when(categoryAndLevelStrategyMock.getKata(Category.TECHNICAL.name(), Level.EASY.name())).thenReturn(kata);
+        Mockito.when(categoryAndLevelStrategyMock.supports(category, level)).thenReturn(true);
+        Mockito.when(categoryAndLevelStrategyMock.getKata(category, level)).thenReturn(kata);
 
-        Kata result = handler.handle(Category.TECHNICAL.name(), Level.EASY.name());
+        Kata result = handler.handle(category, level);
 
         assertThat(result).isNotNull();
         assertThat(result.getTitle()).isEqualTo("Daily Stand-up kata");
 
-        Mockito.verify(categoryAndLevelStrategyMock).getKata(Category.TECHNICAL.name(), Level.EASY.name());
+        Mockito.verify(categoryAndLevelStrategyMock).getKata(category, level);
 
         Mockito.verify(categoryStrategyMock, Mockito.never()).getKata(Mockito.any(), Mockito.any());
         Mockito.verify(defaultStrategyMock, Mockito.never()).getKata(Mockito.any(), Mockito.any());
@@ -95,17 +102,17 @@ class RandomKataHandlerTest {
     void handle_shouldThrowExceptionWhenNoStrategySupportsByCategory() {
         String invalidCategory = "SOCCER";
 
-        Mockito.when(categoryStrategyMock.supports(invalidCategory, null)).thenReturn(false);
-        Mockito.when(categoryAndLevelStrategyMock.supports(invalidCategory, null)).thenReturn(false);
-        Mockito.when(defaultStrategyMock.supports(invalidCategory, null)).thenReturn(false);
+        Mockito.when(categoryStrategyMock.supports(invalidCategory.describeConstable(), Optional.empty())).thenReturn(false);
+        Mockito.when(categoryAndLevelStrategyMock.supports(invalidCategory.describeConstable(), Optional.empty())).thenReturn(false);
+        Mockito.when(defaultStrategyMock.supports(invalidCategory.describeConstable(), Optional.empty())).thenReturn(false);
 
-        assertThatThrownBy(() -> handler.handle(invalidCategory, null))
+        assertThatThrownBy(() -> handler.handle(invalidCategory.describeConstable(), Optional.empty()))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("No strategy found for provided parameters");
 
-        Mockito.verify(categoryStrategyMock).supports(invalidCategory, null);
-        Mockito.verify(categoryAndLevelStrategyMock).supports(invalidCategory, null);
-        Mockito.verify(defaultStrategyMock).supports(invalidCategory, null);
+        Mockito.verify(categoryStrategyMock).supports(invalidCategory.describeConstable(), Optional.empty());
+        Mockito.verify(categoryAndLevelStrategyMock).supports(invalidCategory.describeConstable(), Optional.empty());
+        Mockito.verify(defaultStrategyMock).supports(invalidCategory.describeConstable(), Optional.empty());
 
         Mockito.verifyNoMoreInteractions(categoryStrategyMock, categoryAndLevelStrategyMock, defaultStrategyMock);
     }
@@ -114,17 +121,17 @@ class RandomKataHandlerTest {
     void handle_shouldThrowExceptionWhenNoStrategySupportsByLevel() {
         String invalidLevel = "NIGHTMARE";
 
-        Mockito.when(categoryStrategyMock.supports(null, invalidLevel)).thenReturn(false);
-        Mockito.when(categoryAndLevelStrategyMock.supports(null, invalidLevel)).thenReturn(false);
-        Mockito.when(defaultStrategyMock.supports(null, invalidLevel)).thenReturn(false);
+        Mockito.when(categoryStrategyMock.supports(Optional.empty(), invalidLevel.describeConstable())).thenReturn(false);
+        Mockito.when(categoryAndLevelStrategyMock.supports(Optional.empty(), invalidLevel.describeConstable())).thenReturn(false);
+        Mockito.when(defaultStrategyMock.supports(Optional.empty(), invalidLevel.describeConstable())).thenReturn(false);
 
-        assertThatThrownBy(() -> handler.handle(null, invalidLevel))
+        assertThatThrownBy(() -> handler.handle(Optional.empty(), invalidLevel.describeConstable()))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("No strategy found for provided parameters");
 
-        Mockito.verify(categoryStrategyMock).supports(null, invalidLevel);
-        Mockito.verify(categoryAndLevelStrategyMock).supports(null, invalidLevel);
-        Mockito.verify(defaultStrategyMock).supports(null, invalidLevel);
+        Mockito.verify(categoryStrategyMock).supports(Optional.empty(), invalidLevel.describeConstable());
+        Mockito.verify(categoryAndLevelStrategyMock).supports(Optional.empty(), invalidLevel.describeConstable());
+        Mockito.verify(defaultStrategyMock).supports(Optional.empty(), invalidLevel.describeConstable());
 
         Mockito.verifyNoMoreInteractions(categoryStrategyMock, categoryAndLevelStrategyMock, defaultStrategyMock);
     }
@@ -134,17 +141,17 @@ class RandomKataHandlerTest {
         String invalidCategory = "SOCCER";
         String invalidLevel = "NIGHTMARE";
 
-        Mockito.when(categoryStrategyMock.supports(invalidCategory, invalidLevel)).thenReturn(false);
-        Mockito.when(categoryAndLevelStrategyMock.supports(invalidCategory, invalidLevel)).thenReturn(false);
-        Mockito.when(defaultStrategyMock.supports(invalidCategory, invalidLevel)).thenReturn(false);
+        Mockito.when(categoryStrategyMock.supports(invalidCategory.describeConstable(), invalidLevel.describeConstable())).thenReturn(false);
+        Mockito.when(categoryAndLevelStrategyMock.supports(invalidCategory.describeConstable(), invalidLevel.describeConstable())).thenReturn(false);
+        Mockito.when(defaultStrategyMock.supports(invalidCategory.describeConstable(), invalidLevel.describeConstable())).thenReturn(false);
 
-        assertThatThrownBy(() -> handler.handle(invalidCategory, invalidLevel))
+        assertThatThrownBy(() -> handler.handle(invalidCategory.describeConstable(), invalidLevel.describeConstable()))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("No strategy found for provided parameters");
 
-        Mockito.verify(categoryStrategyMock).supports(invalidCategory, invalidLevel);
-        Mockito.verify(categoryAndLevelStrategyMock).supports(invalidCategory, invalidLevel);
-        Mockito.verify(defaultStrategyMock).supports(invalidCategory, invalidLevel);
+        Mockito.verify(categoryStrategyMock).supports(invalidCategory.describeConstable(), invalidLevel.describeConstable());
+        Mockito.verify(categoryAndLevelStrategyMock).supports(invalidCategory.describeConstable(), invalidLevel.describeConstable());
+        Mockito.verify(defaultStrategyMock).supports(invalidCategory.describeConstable(), invalidLevel.describeConstable());
 
         Mockito.verifyNoMoreInteractions(categoryStrategyMock, categoryAndLevelStrategyMock, defaultStrategyMock);
     }
