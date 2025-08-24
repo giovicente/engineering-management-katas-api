@@ -37,12 +37,12 @@ class CategoryAndLevelRandomKataStrategyTest {
     }
 
     @Test
-    void supports_shouldReturnTrueForNonNullAndNonBlankInput() {
+    void supports_shouldReturnTrueForNonEmptyInput() {
         assertThat(strategy.supports("TECHNICAL".describeConstable(), "EASY".describeConstable())).isTrue();
     }
 
     @Test
-    void supports_shouldReturnFalseForNullOrBlankInput() {
+    void supports_shouldReturnFalseForEmptyInput() {
         assertThat(strategy.supports(Optional.empty(), Optional.empty())).isFalse();
         assertThat(strategy.supports("TECHNICAL".describeConstable(), Optional.empty())).isFalse();
         assertThat(strategy.supports(Optional.empty(), "EASY".describeConstable())).isFalse();

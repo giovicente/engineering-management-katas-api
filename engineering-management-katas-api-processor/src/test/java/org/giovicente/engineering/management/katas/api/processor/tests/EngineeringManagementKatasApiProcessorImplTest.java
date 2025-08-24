@@ -101,7 +101,7 @@ class EngineeringManagementKatasApiProcessorImplTest {
     }
 
     @Test
-    void getRandomKataByLevel_shouldReturnRandomKataByCategoryWhenLevelIsValid() {
+    void getRandomKataByLevel_shouldReturnRandomKataByLevelWhenLevelIsValid() {
         when(repository.findRandomKataByLevel(model.getLevel().toString())).thenReturn(entity);
         when(mapper.toModel(entity)).thenReturn(model);
 
@@ -130,7 +130,7 @@ class EngineeringManagementKatasApiProcessorImplTest {
     }
 
     @Test
-    void getRandomKataByCategoryAndLevel_shouldReturnRandomKataByCategoryWhenInputIsValid() {
+    void getRandomKataByCategoryAndLevel_shouldReturnRandomKataByCategoryAndLevelWhenInputIsValid() {
         when(repository.findRandomKataByCategoryAndLevel(model.getCategory().toString(), model.getLevel().toString())).thenReturn(entity);
         when(mapper.toModel(entity)).thenReturn(model);
 
